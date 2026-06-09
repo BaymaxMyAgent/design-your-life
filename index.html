@@ -386,7 +386,7 @@
     <div id="vimeo-container">
       <iframe
         id="vimeo-player"
-        src="https://player.vimeo.com/video/1198917532?autoplay=1&muted=0&controls=1&loop=0&playsinline=1&title=0&byline=0&portrait=0&api=1"
+        src="https://player.vimeo.com/video/1198917532?autoplay=1&muted=0&controls=1&loop=0&playsinline=1&title=0&byline=0&portrait=0"
         allow="autoplay; fullscreen; picture-in-picture"
         allowfullscreen>
       </iframe>
@@ -486,8 +486,12 @@
 
 </div>
 
+<!-- Vimeo Player SDK — works fine on GitHub Pages, no CSP restrictions -->
+<script src="https://player.vimeo.com/api/player.js"></script>
 <script>
   var currentScreen = 'screen-start';
+  var vimeoPlayer   = null;
+
   var progressMap = {
     'screen-start':    0,
     'screen-video':    0,
@@ -495,6 +499,22 @@
     'screen-q2':       100,
     'screen-complete': 100
   };
+
+  // Init Vimeo SDK after page loads
+  window.addEventListener('load', function() {
+    var iframe = document.getElementById('vimeo-player');
+    if (iframe && typeof Vimeo !== 'undefined') {
+      vimeoPlayer = new Vimeo.Player(iframe);
+
+      // When video ends — show the styled overlay
+      vimeoPlayer.on('ended', function() {
+        if (currentScreen === 'screen-video') {
+          var overlay = document.getElementById('video-end-overlay');
+          if (overlay) overlay.classList.add('visible');
+        }
+      });
+    }
+  });
 
   function goTo(id) {
     var old = document.getElementById(currentScreen);
@@ -511,7 +531,6 @@
       fill.style.width = progressMap[id] + '%';
     }
 
-    // Pause video and hide overlay when leaving video screen
     if (id !== 'screen-video') {
       pauseVimeo();
       hideEndOverlay();
@@ -521,10 +540,7 @@
   }
 
   function pauseVimeo() {
-    var iframe = document.getElementById('vimeo-player');
-    if (iframe) {
-      iframe.contentWindow.postMessage(JSON.stringify({ method: 'pause' }), '*');
-    }
+    if (vimeoPlayer) vimeoPlayer.pause().catch(function(){});
   }
 
   function hideEndOverlay() {
@@ -533,30 +549,13 @@
   }
 
   function replayVideo() {
-    // Hide the overlay
     hideEndOverlay();
-    // Reload iframe to restart video
-    var iframe = document.getElementById('vimeo-player');
-    if (iframe) {
-      var src = iframe.src;
-      iframe.src = '';
-      setTimeout(function() { iframe.src = src; }, 50);
+    if (vimeoPlayer) {
+      vimeoPlayer.setCurrentTime(0).then(function() {
+        vimeoPlayer.play().catch(function(){});
+      });
     }
   }
-
-  // Listen for Vimeo finish event
-  window.addEventListener('message', function(e) {
-    try {
-      var data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
-      if (data && data.event === 'finish') {
-        // Only show if we're on the video screen
-        if (currentScreen === 'screen-video') {
-          var overlay = document.getElementById('video-end-overlay');
-          if (overlay) overlay.classList.add('visible');
-        }
-      }
-    } catch(err) {}
-  });
 </script>
 
 </body>
