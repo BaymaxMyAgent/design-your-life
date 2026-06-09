@@ -40,12 +40,12 @@
     .screen.active { opacity: 1; pointer-events: all; }
 
     /* ── START PAGE ── */
-    #screen-start { text-align: center; padding: 0 20px; }
+    #screen-start { text-align: center; padding: 0 20px; justify-content: center; }
 
     .start-eyebrow {
       font-size: clamp(0.7em, 2vw, 1em);
       letter-spacing: 0.28em; font-weight: 400;
-      color: var(--white); opacity: 0.8; margin-bottom: 16px;
+      color: var(--white); opacity: 1; margin-bottom: 16px;
     }
 
     .start-divider {
@@ -69,20 +69,20 @@
     .start-subtitle {
       font-size: clamp(0.75em, 2vw, 0.95em);
       letter-spacing: 0.2em; font-weight: 400;
-      opacity: 0.75; margin-top: 16px; margin-bottom: 5px;
+      opacity: 1; margin-top: 16px; margin-bottom: 5px;
     }
 
     .start-sub2 {
       font-size: clamp(0.65em, 1.8vw, 0.8em);
       letter-spacing: 0.12em; font-weight: 300;
-      opacity: 0.55; line-height: 1.6;
+      opacity: 0.85; line-height: 1.6;
     }
 
     .start-rpm {
       margin-top: 22px; display: flex;
       justify-content: center; gap: 22px;
       font-size: clamp(0.6em, 1.8vw, 0.75em);
-      letter-spacing: 0.22em; font-weight: 500; opacity: 0.75;
+      letter-spacing: 0.22em; font-weight: 600; opacity: 1;
     }
 
     .btn-start {
@@ -370,8 +370,8 @@
       <span style="color:var(--white)">YOUR </span><span style="color:var(--gold)">LIFE</span>
     </div>
     <hr class="start-divider" style="margin-top:16px;" />
-    <div class="start-subtitle">A GUIDED RPM EXPERIENCE</div>
-    <div class="start-sub2">BASED ON TONY ROBBINS' PERSONAL<br/>SUCCESS SYSTEM</div>
+    <div class="start-subtitle" style="color:#a8d8f0;">A GUIDED RPM EXPERIENCE</div>
+    <div class="start-sub2" style="color:rgba(255,255,255,0.8);">BASED ON TONY ROBBINS' PERSONAL<br/>SUCCESS SYSTEM</div>
     <div class="start-rpm">
       <span style="color:var(--cyan)">RESULTS</span>
       <span style="color:var(--cyan)">PURPOSE</span>
@@ -384,12 +384,8 @@
   <div class="screen" id="screen-video">
 
     <div id="vimeo-container">
-      <iframe
-        id="vimeo-player"
-        src="https://player.vimeo.com/video/1198917532?autoplay=1&muted=0&controls=1&loop=0&playsinline=1&title=0&byline=0&portrait=0"
-        allow="autoplay; fullscreen; picture-in-picture"
-        allowfullscreen>
-      </iframe>
+      <!-- iframe injected by JS only when video screen is shown -->
+      <div id="vimeo-player-placeholder"></div>
     </div>
 
     <!-- Always-visible Continue button (bottom right) -->
@@ -500,13 +496,27 @@
     'screen-complete': 100
   };
 
-  // Init Vimeo SDK after page loads
-  window.addEventListener('load', function() {
-    var iframe = document.getElementById('vimeo-player');
-    if (iframe && typeof Vimeo !== 'undefined') {
-      vimeoPlayer = new Vimeo.Player(iframe);
+  var vimeoLoaded = false;
 
-      // When video ends — show the styled overlay
+  function initVimeoPlayer() {
+    if (vimeoLoaded) return;
+    vimeoLoaded = true;
+
+    // Build and inject the iframe now
+    var placeholder = document.getElementById('vimeo-player-placeholder');
+    if (!placeholder) return;
+
+    var iframe = document.createElement('iframe');
+    iframe.id = 'vimeo-player';
+    iframe.src = 'https://player.vimeo.com/video/1198917532?autoplay=1&muted=0&controls=1&loop=0&playsinline=1&title=0&byline=0&portrait=0';
+    iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+    iframe.allowFullscreen = true;
+    iframe.style.cssText = 'position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-height:100vh;min-width:177.78vh;transform:translate(-50%,-50%);border:0;';
+    placeholder.replaceWith(iframe);
+
+    // Init SDK
+    if (typeof Vimeo !== 'undefined') {
+      vimeoPlayer = new Vimeo.Player(iframe);
       vimeoPlayer.on('ended', function() {
         if (currentScreen === 'screen-video') {
           var overlay = document.getElementById('video-end-overlay');
@@ -514,7 +524,7 @@
         }
       });
     }
-  });
+  }
 
   function goTo(id) {
     var old = document.getElementById(currentScreen);
@@ -531,7 +541,9 @@
       fill.style.width = progressMap[id] + '%';
     }
 
-    if (id !== 'screen-video') {
+    if (id === 'screen-video') {
+      initVimeoPlayer();
+    } else {
       pauseVimeo();
       hideEndOverlay();
     }
