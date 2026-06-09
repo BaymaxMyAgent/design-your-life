@@ -459,6 +459,15 @@
       display: flex; align-items: center; gap: 8px;
       margin-bottom: 20px; font-size: 0.75em;
       color: var(--gold); opacity: 0.8; letter-spacing: 0.1em;
+      transition: opacity 0.4s ease;
+    }
+
+    .audio-indicator.paused {
+      opacity: 0.3;
+    }
+
+    .audio-indicator.paused .audio-dot {
+      animation: none;
     }
 
     .audio-dot {
@@ -595,15 +604,15 @@
   <div class="screen" id="screen-q1">
     <div class="question-screen">
       <div class="q-phase">RESULTS — Question 1 of 2</div>
-      <div class="audio-indicator">
+      <div class="audio-indicator" id="q1-audio-bar">
         <div class="audio-dot"></div>
         TONY ROBBINS AUDIO PLAYING
       </div>
       <div class="q-text">
-        What do I want? What is my dream, my goal — what do I really want to create in my life?
+        Right now — if everything else fell away — what is the ONE outcome that, if you achieved it, would change everything else?
       </div>
       <div class="q-subtext">
-        Write down everything that comes to mind. Don't edit yourself — just capture the raw vision.
+        Don't edit yourself. Don't be practical yet. Just write what's true.
       </div>
       <textarea class="q-input" id="answer-q1" placeholder="Start writing your answer here..."></textarea>
       <div class="q-footer">
@@ -612,6 +621,11 @@
         <button class="btn-next" onclick="goTo('screen-q2')">Next &rarr;</button>
       </div>
     </div>
+
+    <!-- Q1 audio — autoplays on screen entry -->
+    <audio id="audio-q1" preload="auto">
+      <source src="results-q1.mp3" type="audio/mpeg" />
+    </audio>
   </div>
 
   <!-- SCREEN 5 — QUESTION 2 -->
@@ -705,9 +719,9 @@
     }
   }
 
-  function playResultsOpenAudio() {
-    var audio = document.getElementById('audio-results-open');
-    var bar   = document.getElementById('results-audio-bar');
+  function playAudio(audioId, barId) {
+    var audio = document.getElementById(audioId);
+    var bar   = barId ? document.getElementById(barId) : null;
     if (!audio) return;
 
     activeAudio = audio;
@@ -716,7 +730,7 @@
     audio.play().then(function() {
       if (bar) bar.classList.remove('paused');
     }).catch(function() {
-      // Autoplay blocked — show paused state, audio will play on first user interaction
+      // Autoplay blocked — show dimmed state until user interacts
       if (bar) bar.classList.add('paused');
     });
 
@@ -724,6 +738,14 @@
       if (bar) bar.classList.add('paused');
       activeAudio = null;
     };
+  }
+
+  function playResultsOpenAudio() {
+    playAudio('audio-results-open', 'results-audio-bar');
+  }
+
+  function playQ1Audio() {
+    playAudio('audio-q1', 'q1-audio-bar');
   }
 
   function goTo(id) {
@@ -752,6 +774,9 @@
     } else if (id === 'screen-results-open') {
       pauseVimeo();
       playResultsOpenAudio();
+    } else if (id === 'screen-q1') {
+      pauseVimeo();
+      playQ1Audio();
     } else {
       pauseVimeo();
       hideEndOverlay();
