@@ -23,50 +23,35 @@
     }
 
     #app {
-      width: 100vw;
-      height: 100vh;
-      position: relative;
-      overflow: hidden;
+      width: 100vw; height: 100vh;
+      position: relative; overflow: hidden;
     }
 
     .screen {
-      position: absolute;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
+      position: absolute; inset: 0;
+      width: 100vw; height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      opacity: 0; pointer-events: none;
       transition: opacity 0.6s ease;
       background: var(--navy);
     }
 
-    .screen.active {
-      opacity: 1;
-      pointer-events: all;
-    }
+    .screen.active { opacity: 1; pointer-events: all; }
 
     /* ── START PAGE ── */
     #screen-start { text-align: center; padding: 0 20px; }
 
     .start-eyebrow {
       font-size: clamp(0.7em, 2vw, 1em);
-      letter-spacing: 0.28em;
-      font-weight: 400;
-      color: var(--white);
-      opacity: 0.8;
-      margin-bottom: 16px;
+      letter-spacing: 0.28em; font-weight: 400;
+      color: var(--white); opacity: 0.8; margin-bottom: 16px;
     }
 
     .start-divider {
-      width: 50%; max-width: 280px;
-      height: 1px;
+      width: 50%; max-width: 280px; height: 1px;
       background: rgba(255,255,255,0.35);
-      margin: 0 auto 16px;
-      border: none;
+      margin: 0 auto 16px; border: none;
     }
 
     .start-title-design {
@@ -94,15 +79,14 @@
     }
 
     .start-rpm {
-      margin-top: 22px;
-      display: flex; justify-content: center; gap: 22px;
+      margin-top: 22px; display: flex;
+      justify-content: center; gap: 22px;
       font-size: clamp(0.6em, 1.8vw, 0.75em);
       letter-spacing: 0.22em; font-weight: 500; opacity: 0.75;
     }
 
     .btn-start {
-      margin-top: 48px;
-      padding: 15px 46px;
+      margin-top: 48px; padding: 15px 46px;
       font-size: clamp(0.95em, 2.5vw, 1.1em);
       color: var(--navy); background: var(--glow);
       border-radius: 50px; text-decoration: none;
@@ -122,95 +106,152 @@
     #screen-video { background: #000; padding: 0; }
 
     #vimeo-container {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; overflow: hidden;
     }
 
     #vimeo-container iframe {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 100vw;
-      height: 56.25vw;
-      min-height: 100vh;
-      min-width: 177.78vh;
+      top: 50%; left: 50%;
+      width: 100vw; height: 56.25vw;
+      min-height: 100vh; min-width: 177.78vh;
       transform: translate(-50%, -50%);
       border: 0;
     }
 
-    /* Continue button — fixed position, safely above mobile address bar */
+    /* Continue button always visible bottom-right */
     .video-continue-btn {
       position: absolute;
-      bottom: 80px; /* high enough to clear mobile address bar */
-      right: 28px;
+      bottom: 80px; right: 28px;
       z-index: 20;
       background: rgba(0,0,0,0.65);
       color: var(--white);
-      border: 2px solid rgba(255,255,255,0.4);
+      border: 2px solid rgba(255,255,255,0.35);
       border-radius: 50px;
       padding: 12px 28px;
-      font-size: 1em;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      cursor: pointer;
-      transition: background 0.2s, border-color 0.2s;
-      backdrop-filter: blur(4px);
+      font-size: 1em; font-weight: 600;
+      letter-spacing: 0.05em; cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      backdrop-filter: blur(6px);
     }
 
     .video-continue-btn:hover {
-      background: rgba(0,234,255,0.2);
-      border-color: var(--glow);
-      color: var(--glow);
+      background: rgba(0,234,255,0.18);
+      border-color: var(--glow); color: var(--glow);
     }
 
-    /* Replay button — appears after video ends */
-    .video-replay-btn {
+    /* ── VIDEO END OVERLAY ── */
+    #video-end-overlay {
+      position: absolute; inset: 0;
+      z-index: 30;
+      background: linear-gradient(
+        160deg,
+        rgba(0,15,30,0.92) 0%,
+        rgba(0,31,63,0.96) 60%,
+        rgba(0,10,22,0.98) 100%
+      );
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      text-align: center; padding: 32px 24px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.7s ease;
+    }
+
+    #video-end-overlay.visible {
+      opacity: 1; pointer-events: all;
+    }
+
+    .end-divider {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--gold));
+      border-radius: 2px; margin: 0 auto 24px;
+    }
+
+    .end-headline {
+      font-size: clamp(1.6em, 4vw, 2.4em);
+      font-weight: 900; color: var(--white);
+      line-height: 1.2; margin-bottom: 12px;
+      letter-spacing: 0.02em;
+    }
+
+    .end-headline span { color: var(--cyan); }
+
+    .end-subtext {
+      font-size: clamp(0.85em, 2vw, 1em);
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6; margin-bottom: 40px;
+      max-width: 420px;
+    }
+
+    .end-buttons {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 16px;
+      width: 100%; max-width: 320px;
+    }
+
+    .btn-continue-main {
+      width: 100%; padding: 16px 0;
+      font-size: 1.05em; font-weight: 700;
+      letter-spacing: 0.08em; color: var(--navy);
+      background: linear-gradient(135deg, var(--glow), var(--cyan));
+      border: none; border-radius: 50px; cursor: pointer;
+      box-shadow: 0 0 20px rgba(0,234,255,0.35),
+                  0 0 50px rgba(0,234,255,0.15);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .btn-continue-main:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 30px rgba(0,234,255,0.5),
+                  0 0 70px rgba(0,234,255,0.2);
+    }
+
+    .btn-replay-styled {
+      width: 100%; padding: 14px 0;
+      font-size: 0.95em; font-weight: 600;
+      letter-spacing: 0.08em; color: var(--gold);
+      background: transparent;
+      border: 2px solid rgba(240,197,93,0.45);
+      border-radius: 50px; cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .btn-replay-styled:hover {
+      background: rgba(240,197,93,0.1);
+      border-color: var(--gold);
+    }
+
+    /* Decorative glow orbs behind overlay content */
+    .end-orb {
       position: absolute;
-      bottom: 80px;
-      left: 28px;
-      z-index: 20;
-      background: rgba(0,0,0,0.65);
-      color: rgba(255,255,255,0.75);
-      border: 2px solid rgba(255,255,255,0.25);
-      border-radius: 50px;
-      padding: 12px 24px;
-      font-size: 0.9em;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      cursor: pointer;
-      transition: background 0.2s, border-color 0.2s, opacity 0.4s;
-      backdrop-filter: blur(4px);
-      opacity: 0;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.18;
       pointer-events: none;
     }
 
-    .video-replay-btn.visible {
-      opacity: 1;
-      pointer-events: all;
+    .end-orb-1 {
+      width: 400px; height: 400px;
+      background: var(--cyan);
+      top: -100px; left: -100px;
     }
 
-    .video-replay-btn:hover {
-      background: rgba(255,255,255,0.12);
-      border-color: rgba(255,255,255,0.5);
-      color: var(--white);
+    .end-orb-2 {
+      width: 300px; height: 300px;
+      background: var(--gold);
+      bottom: -80px; right: -80px;
     }
 
     /* ── QUESTION SCREENS ── */
     .question-screen {
       padding: 40px 24px;
-      max-width: 760px;
-      width: 100%;
-      margin: 0 auto;
+      max-width: 760px; width: 100%; margin: 0 auto;
     }
 
     .q-phase {
       font-size: 0.7em; letter-spacing: 0.3em;
       font-weight: 600; color: var(--cyan);
-      opacity: 0.8; margin-bottom: 12px;
-      text-transform: uppercase;
+      opacity: 0.8; margin-bottom: 12px; text-transform: uppercase;
     }
 
     .q-text {
@@ -229,8 +270,7 @@
       width: 100%; min-height: 140px;
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 12px;
-      padding: 16px 20px;
+      border-radius: 12px; padding: 16px 20px;
       font-size: 1em; color: var(--white);
       font-family: inherit; line-height: 1.6;
       resize: none; outline: none;
@@ -245,24 +285,20 @@
     }
 
     .q-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 24px;
+      display: flex; justify-content: space-between;
+      align-items: center; margin-top: 24px;
     }
 
     .q-progress {
       font-size: 0.75em;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.4); letter-spacing: 0.1em;
     }
 
     .btn-next {
       background: var(--cyan); color: var(--navy);
       border: none; border-radius: 50px;
-      padding: 13px 36px;
-      font-size: 0.95em; font-weight: 700;
-      letter-spacing: 0.06em; cursor: pointer;
+      padding: 13px 36px; font-size: 0.95em;
+      font-weight: 700; letter-spacing: 0.06em; cursor: pointer;
       transition: transform 0.15s, box-shadow 0.15s;
     }
 
@@ -272,11 +308,9 @@
     }
 
     .btn-back {
-      background: transparent;
-      color: rgba(255,255,255,0.4);
-      border: none; font-size: 0.85em;
-      cursor: pointer; letter-spacing: 0.05em;
-      padding: 8px 0;
+      background: transparent; color: rgba(255,255,255,0.4);
+      border: none; font-size: 0.85em; cursor: pointer;
+      letter-spacing: 0.05em; padding: 8px 0;
       transition: color 0.2s;
     }
 
@@ -284,14 +318,12 @@
 
     .audio-indicator {
       display: flex; align-items: center; gap: 8px;
-      margin-bottom: 20px;
-      font-size: 0.75em; color: var(--gold);
-      opacity: 0.8; letter-spacing: 0.1em;
+      margin-bottom: 20px; font-size: 0.75em;
+      color: var(--gold); opacity: 0.8; letter-spacing: 0.1em;
     }
 
     .audio-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
+      width: 8px; height: 8px; border-radius: 50%;
       background: var(--gold);
       animation: pulse 1.4s ease-in-out infinite;
     }
@@ -304,8 +336,7 @@
     .progress-bar-track {
       position: fixed; top: 0; left: 0;
       width: 100%; height: 3px;
-      background: rgba(255,255,255,0.08);
-      z-index: 100;
+      background: rgba(255,255,255,0.08); z-index: 100;
     }
 
     .progress-bar-fill {
@@ -318,7 +349,7 @@
       .question-screen { padding: 32px 18px; }
       .q-text { font-size: 1.35em; }
       .video-continue-btn { bottom: 90px; right: 20px; }
-      .video-replay-btn { bottom: 90px; left: 20px; }
+      .end-buttons { max-width: 280px; }
     }
   </style>
 </head>
@@ -351,6 +382,7 @@
 
   <!-- SCREEN 2 — WELCOME VIDEO -->
   <div class="screen" id="screen-video">
+
     <div id="vimeo-container">
       <iframe
         id="vimeo-player"
@@ -360,15 +392,36 @@
       </iframe>
     </div>
 
-    <!-- Replay button (hidden until video ends) -->
-    <button class="video-replay-btn" id="replay-btn" onclick="replayVideo()">
-      ↺ Replay
-    </button>
-
-    <!-- Continue button -->
+    <!-- Always-visible Continue button (bottom right) -->
     <button class="video-continue-btn" onclick="goTo('screen-q1')">
       Continue &rarr;
     </button>
+
+    <!-- End-of-video overlay -->
+    <div id="video-end-overlay">
+      <div class="end-orb end-orb-1"></div>
+      <div class="end-orb end-orb-2"></div>
+
+      <div class="end-divider"></div>
+
+      <div class="end-headline">
+        Ready to <span>Design</span><br/>Your Life?
+      </div>
+      <div class="end-subtext">
+        Tony has laid the foundation.<br/>
+        Now it's your turn to build.
+      </div>
+
+      <div class="end-buttons">
+        <button class="btn-continue-main" onclick="goTo('screen-q1')">
+          BEGIN YOUR RPM &nbsp;&rarr;
+        </button>
+        <button class="btn-replay-styled" onclick="replayVideo()">
+          ↺ &nbsp; Watch Again
+        </button>
+      </div>
+    </div>
+
   </div>
 
   <!-- SCREEN 3 — QUESTION 1 -->
@@ -450,8 +503,7 @@
     if (next) next.classList.add('active');
     currentScreen = id;
 
-    // Progress bar
-    var bar = document.getElementById('progress-bar');
+    var bar  = document.getElementById('progress-bar');
     var fill = document.getElementById('progress-fill');
     var showProgress = (id === 'screen-q1' || id === 'screen-q2' || id === 'screen-complete');
     bar.style.display = showProgress ? 'block' : 'none';
@@ -459,15 +511,10 @@
       fill.style.width = progressMap[id] + '%';
     }
 
-    // Pause video when leaving video screen
+    // Pause video and hide overlay when leaving video screen
     if (id !== 'screen-video') {
       pauseVimeo();
-    }
-
-    // Hide replay btn when returning to video screen
-    if (id === 'screen-video') {
-      var replayBtn = document.getElementById('replay-btn');
-      if (replayBtn) replayBtn.classList.remove('visible');
+      hideEndOverlay();
     }
 
     window.scrollTo(0, 0);
@@ -480,27 +527,33 @@
     }
   }
 
+  function hideEndOverlay() {
+    var overlay = document.getElementById('video-end-overlay');
+    if (overlay) overlay.classList.remove('visible');
+  }
+
   function replayVideo() {
+    // Hide the overlay
+    hideEndOverlay();
+    // Reload iframe to restart video
     var iframe = document.getElementById('vimeo-player');
     if (iframe) {
-      // Reload the iframe src to restart cleanly
       var src = iframe.src;
       iframe.src = '';
       setTimeout(function() { iframe.src = src; }, 50);
-      // Hide replay button
-      var replayBtn = document.getElementById('replay-btn');
-      if (replayBtn) replayBtn.classList.remove('visible');
     }
   }
 
-  // Listen for Vimeo player events via postMessage
+  // Listen for Vimeo finish event
   window.addEventListener('message', function(e) {
     try {
       var data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
-      // When video ends, show the replay button
       if (data && data.event === 'finish') {
-        var replayBtn = document.getElementById('replay-btn');
-        if (replayBtn) replayBtn.classList.add('visible');
+        // Only show if we're on the video screen
+        if (currentScreen === 'screen-video') {
+          var overlay = document.getElementById('video-end-overlay');
+          if (overlay) overlay.classList.add('visible');
+        }
       }
     } catch(err) {}
   });
