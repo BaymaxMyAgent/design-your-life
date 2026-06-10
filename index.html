@@ -1024,7 +1024,7 @@
   <!-- SCREEN 4 — QUESTION 1 -->
   <div class="screen" id="screen-q1">
     <div class="question-screen">
-      <div class="q-phase q-phase-label">RESULTS — Question 1 of 2</div>
+      <div class="q-phase q-phase-label">RESULTS — Question 1</div>
       <div class="audio-indicator" id="q1-audio-bar">
         <div class="audio-dot"></div>
         TONY ROBBINS AUDIO PLAYING
@@ -1040,7 +1040,7 @@
       <div class="q-footer">
         <button class="btn-back" onclick="goTo('screen-results-open', true)">&larr; Back</button>
         <div class="q-progress">1 / 2</div>
-        <button class="btn-next" onclick="goTo('screen-q2')">Next &rarr;</button>
+        <button class="btn-next" onclick="goTo('screen-purpose-open')">Next &rarr;</button>
       </div>
     </div>
 
@@ -1051,29 +1051,70 @@
   </div>
 
   <!-- SCREEN 5 — QUESTION 2 -->
-  <div class="screen" id="screen-q2">
+  <!-- SCREEN — PURPOSE PHASE OPENING -->
+  <div class="screen" id="screen-purpose-open">
+    <div class="phase-orb phase-orb-1"></div>
+    <div class="phase-orb phase-orb-2"></div>
+
+    <div class="phase-open-screen">
+
+      <div class="phase-label">Phase 2 of 3 &nbsp;·&nbsp; RPM Framework</div>
+      <div class="phase-divider"></div>
+      <div class="phase-title">PURPOSE</div>
+      <div class="phase-subtitle">The P in RPM</div>
+
+      <div class="phase-audio-bar" id="purpose-audio-bar">
+        <div class="phase-audio-waves">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        TONY ROBBINS — PURPOSE
+      </div>
+
+      <div class="phase-quote">
+        "Purpose is stronger than object. The object you're going after is interesting. What'll get you there is the purpose."
+      </div>
+      <div class="phase-quote-attr">— Tony Robbins</div>
+
+      <button class="btn-phase-next" onclick="goTo('screen-purpose-q1')">
+        Let's Go &nbsp;&rarr;
+      </button>
+
+    </div>
+
+    <audio id="audio-purpose-open" preload="auto">
+      <source src="purpose-title-page.mp3" type="audio/mpeg" />
+    </audio>
+  </div>
+
+  <!-- SCREEN — PURPOSE QUESTION 1 -->
+  <div class="screen" id="screen-purpose-q1">
     <div class="question-screen">
-      <div class="q-phase q-phase-label">PURPOSE — Question 2 of 2</div>
-      <div class="audio-indicator">
+      <div class="q-phase q-phase-label">PURPOSE — Question 1</div>
+      <div class="audio-indicator" id="purpose-q1-audio-bar">
         <div class="audio-dot"></div>
         TONY ROBBINS AUDIO PLAYING
       </div>
+      <div class="q-handoff">You have your result. Now the question is — why does it matter?</div>
       <div class="q-text">
-        Why do I want this? What is my purpose — what will achieving this give me and those I love?
+        Why do you want this result? Write every reason that comes to mind.
       </div>
       <div class="q-subtext">
-        Purpose is the fuel. The stronger your why, the more unstoppable you become.
+        Start here. We'll go deeper in a moment. Don't filter — just write.
       </div>
-      <textarea class="q-input" id="answer-q2" placeholder="Start writing your answer here..."></textarea>
+      <textarea class="q-input" id="answer-purpose-q1" placeholder="Start writing your answer here..."></textarea>
       <div class="q-footer">
-        <button class="btn-back" onclick="goTo('screen-q1', true)">&larr; Back</button>
-        <div class="q-progress">2 / 2</div>
-        <button class="btn-next" onclick="goTo('screen-complete')">Complete &rarr;</button>
+        <button class="btn-back" onclick="goTo('screen-purpose-open', true)">&larr; Back</button>
+        <div class="q-progress">P · 1 of 5</div>
+        <button class="btn-next" onclick="goTo('screen-complete')">Next &rarr;</button>
       </div>
     </div>
+
+    <audio id="audio-purpose-q1" preload="auto">
+      <source src="purpose-q1.mp3" type="audio/mpeg" />
+    </audio>
   </div>
 
-  <!-- SCREEN 6 — COMPLETE -->
+  <!-- SCREEN — COMPLETE (placeholder until all phases built) -->
   <div class="screen" id="screen-complete">
     <div style="text-align:center; padding: 0 24px; max-width:600px;">
       <div style="font-size:3em; margin-bottom:16px;">🎯</div>
@@ -1099,15 +1140,6 @@
   var currentScreen = 'screen-start';
   var vimeoPlayer   = null;
   var vimeoLoaded   = false;
-
-  var progressMap = {
-    'screen-start':        0,
-    'screen-video':        0,
-    'screen-results-open': 0,
-    'screen-q1':           50,
-    'screen-q2':           100,
-    'screen-complete':     100
-  };
 
   // Tracks which audio elements are currently playing so we can stop them on navigation
   var activeAudio = null;
@@ -1209,6 +1241,18 @@
     }, 1100);
   }
 
+  function playPurposeOpenAudio() {
+    playAudio('audio-purpose-open', 'purpose-audio-bar');
+  }
+
+  function playPurposeQ1AudioDelayed() {
+    setTimeout(function() {
+      if (currentScreen === 'screen-purpose-q1') {
+        playAudio('audio-purpose-q1', 'purpose-q1-audio-bar');
+      }
+    }, 1100);
+  }
+
   // ── Textarea micro-interactions ──
   function initTextareaListeners() {
     var inputs = document.querySelectorAll('.q-input');
@@ -1239,16 +1283,18 @@
     'screen-video',
     'screen-results-open',
     'screen-q1',
-    'screen-q2',
+    'screen-purpose-open',
+    'screen-purpose-q1',
     'screen-complete'
   ];
 
   // Progress config — which screens show the bar and how to fill it
   var progressConfig = {
-    'screen-results-open': { show: true,  r: 5,   p: 0,   m: 0,   activePhase: 'r' },
-    'screen-q1':           { show: true,  r: 50,  p: 0,   m: 0,   activePhase: 'r' },
-    'screen-q2':           { show: true,  r: 100, p: 20,  m: 0,   activePhase: 'p' },
-    'screen-complete':     { show: true,  r: 100, p: 100, m: 100, activePhase: 'm' },
+    'screen-results-open':  { show: true, r: 5,   p: 0,  m: 0, activePhase: 'r' },
+    'screen-q1':            { show: true, r: 50,  p: 0,  m: 0, activePhase: 'r' },
+    'screen-purpose-open':  { show: true, r: 100, p: 5,  m: 0, activePhase: 'p' },
+    'screen-purpose-q1':    { show: true, r: 100, p: 25, m: 0, activePhase: 'p' },
+    'screen-complete':      { show: true, r: 100, p: 100, m: 100, activePhase: 'm' },
   };
 
   function playChime() {
@@ -1355,6 +1401,12 @@
     } else if (id === 'screen-q1') {
       pauseVimeo();
       playQ1AudioDelayed();
+    } else if (id === 'screen-purpose-open') {
+      pauseVimeo();
+      playPurposeOpenAudio();
+    } else if (id === 'screen-purpose-q1') {
+      pauseVimeo();
+      playPurposeQ1AudioDelayed();
     } else {
       pauseVimeo();
       hideEndOverlay();
