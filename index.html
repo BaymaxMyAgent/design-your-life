@@ -874,6 +874,489 @@
       border-color: rgba(255,255,255,0.4);
     }
 
+
+    /* ── MAP BUILDING INTERSTITIAL ── */
+    #screen-map-building {
+      background: #000510;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 24px;
+    }
+
+    .building-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+    }
+
+    .building-orb-1 {
+      width: 500px; height: 500px;
+      background: var(--cyan);
+      top: -200px; left: -150px;
+      animation: orbDrift1 6s ease-in-out infinite alternate;
+      opacity: 0.12;
+    }
+
+    .building-orb-2 {
+      width: 400px; height: 400px;
+      background: var(--gold);
+      bottom: -150px; right: -100px;
+      animation: orbDrift2 7s ease-in-out infinite alternate;
+      opacity: 0.1;
+    }
+
+    @keyframes orbDrift1 {
+      from { transform: translate(0, 0); }
+      to   { transform: translate(40px, 30px); }
+    }
+
+    @keyframes orbDrift2 {
+      from { transform: translate(0, 0); }
+      to   { transform: translate(-30px, -40px); }
+    }
+
+    .building-content {
+      position: relative;
+      z-index: 2;
+      max-width: 420px;
+      width: 100%;
+    }
+
+    .building-rpm-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(240,197,93,0.1);
+      border: 1px solid rgba(240,197,93,0.25);
+      border-radius: 50px;
+      padding: 8px 18px;
+      margin-bottom: 36px;
+    }
+
+    .building-rpm-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: buildingPulse 1.2s ease-in-out infinite;
+    }
+
+    .building-rpm-text {
+      font-size: 0.65em;
+      letter-spacing: 0.28em;
+      font-weight: 700;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    @keyframes buildingPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.7); }
+    }
+
+    .building-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 48px;
+    }
+
+    .building-line {
+      font-size: clamp(1em, 3vw, 1.2em);
+      font-weight: 600;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.04em;
+      transition: color 0.8s ease, transform 0.8s ease;
+      transform: translateY(6px);
+    }
+
+    .building-line.lit {
+      color: var(--white);
+      transform: translateY(0);
+    }
+
+    .building-line.lit .building-line-check {
+      opacity: 1;
+      color: var(--gold);
+    }
+
+    .building-line-check {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      margin-right: 10px;
+    }
+
+    .building-progress-wrap {
+      width: 100%;
+      height: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .building-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--cyan), var(--gold));
+      border-radius: 2px;
+      transition: width 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+
+    .building-status {
+      font-size: 0.72em;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* ── UPGRADED MAP REVEAL ── */
+    #screen-map-reveal {
+      overflow-y: auto;
+      justify-content: flex-start;
+      padding: 0;
+      align-items: stretch;
+      background: #000b1e;
+    }
+
+    .map-reveal-inner {
+      width: 100%;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 0 80px;
+    }
+
+    /* Hero header */
+    .map-hero {
+      position: relative;
+      text-align: center;
+      padding: 56px 28px 48px;
+      overflow: hidden;
+    }
+
+    .map-hero-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(0,31,63,0.95) 0%, rgba(0,5,20,1) 100%);
+    }
+
+    .map-hero-glow-top {
+      position: absolute;
+      top: -100px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse, rgba(94,186,221,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .map-hero-content { position: relative; z-index: 1; }
+
+    .map-hero-eyebrow {
+      font-size: 0.62em;
+      letter-spacing: 0.35em;
+      font-weight: 700;
+      color: var(--cyan);
+      opacity: 0.6;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .map-hero-title {
+      font-size: clamp(3em, 14vw, 5.5em);
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      line-height: 0.9;
+      margin-bottom: 10px;
+      text-shadow: 0 0 60px rgba(240,197,93,0.3);
+    }
+
+    .map-hero-sub {
+      font-size: clamp(0.75em, 2vw, 0.9em);
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.35);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .map-hero-name {
+      display: inline-block;
+      font-size: 0.72em;
+      letter-spacing: 0.22em;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      padding: 8px 20px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 50px;
+      text-transform: uppercase;
+    }
+
+    /* Answers drawer */
+    .map-answers-drawer {
+      margin: 0 20px 8px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .map-answers-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.03);
+      border: none;
+      cursor: pointer;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.72em;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-family: inherit;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .map-answers-toggle:hover {
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.65);
+    }
+
+    .map-answers-chevron {
+      transition: transform 0.3s ease;
+      font-size: 0.9em;
+    }
+
+    .map-answers-drawer.open .map-answers-chevron {
+      transform: rotate(180deg);
+    }
+
+    .map-answers-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+
+    .map-answers-drawer.open .map-answers-body {
+      max-height: 600px;
+    }
+
+    .map-answer-row {
+      padding: 12px 18px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .map-answer-row-label {
+      font-size: 0.6em;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      opacity: 0.55;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .map-answer-row-text {
+      font-size: 0.88em;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.55;
+      font-style: italic;
+    }
+
+    /* MAP sections */
+    .map-body {
+      padding: 12px 20px 0;
+    }
+
+    .map-section-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin-bottom: 16px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .map-section-card.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .map-card-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .map-card-badge {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72em;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
+
+    .map-card-badge.badge-r { background: rgba(94,186,221,0.15); color: var(--cyan); }
+    .map-card-badge.badge-p { background: rgba(240,197,93,0.15); color: var(--gold); }
+    .map-card-badge.badge-m { background: rgba(0,234,255,0.12); color: #00eaff; }
+    .map-card-badge.badge-7 { background: rgba(255,100,100,0.12); color: #ff8080; }
+    .map-card-badge.badge-pi { background: rgba(180,100,255,0.12); color: #c084fc; }
+    .map-card-badge.badge-c { background: rgba(240,197,93,0.2); color: var(--gold); }
+
+    .map-card-title {
+      font-size: 0.68em;
+      letter-spacing: 0.22em;
+      font-weight: 700;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+    }
+
+    .map-card-body {
+      font-size: clamp(0.92em, 2.3vw, 1em);
+      color: rgba(255,255,255,0.82);
+      line-height: 1.8;
+    }
+
+    .map-card-body strong {
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    .map-card-body em {
+      color: var(--gold);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    /* Non-negotiables list */
+    .nonneg-list {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .nonneg-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      background: rgba(255,80,80,0.06);
+      border: 1px solid rgba(255,100,100,0.15);
+      border-left: 3px solid #ff8080;
+      border-radius: 0 10px 10px 0;
+    }
+
+    .nonneg-number {
+      font-size: 0.72em;
+      font-weight: 900;
+      color: #ff8080;
+      opacity: 0.8;
+      min-width: 20px;
+      margin-top: 2px;
+      letter-spacing: 0.05em;
+    }
+
+    .nonneg-text {
+      font-size: clamp(0.88em, 2.2vw, 0.95em);
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+    }
+
+    .nonneg-text strong { color: var(--white); }
+
+    /* Commitment declaration */
+    .map-commitment-card {
+      background: linear-gradient(135deg, rgba(0,31,63,0.9), rgba(0,10,25,0.95));
+      border: 1px solid rgba(240,197,93,0.3);
+      border-radius: 16px;
+      padding: 32px 26px;
+      margin-bottom: 16px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      box-shadow: 0 0 60px rgba(240,197,93,0.06), 0 0 120px rgba(94,186,221,0.04);
+    }
+
+    .map-commitment-card.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .map-commitment-eyebrow {
+      font-size: 0.6em;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      opacity: 0.6;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .map-commitment-declaration {
+      font-size: clamp(1.1em, 3.5vw, 1.35em);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+
+    .map-commitment-declaration em {
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    .map-tony-quote-block {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 22px;
+      margin-top: 4px;
+    }
+
+    .map-tony-quote-text {
+      font-size: clamp(0.85em, 2.2vw, 0.95em);
+      color: rgba(255,255,255,0.45);
+      font-style: italic;
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+
+    .map-tony-quote-attr {
+      font-size: 0.65em;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      opacity: 0.5;
+      text-transform: uppercase;
+    }
+
+    .btn-map-restart {
+      display: block;
+      width: calc(100% - 40px);
+      margin: 8px 20px 0;
+      padding: 16px 0;
+      font-size: 0.9em;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.35);
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .btn-map-restart:hover {
+      color: rgba(255,255,255,0.65);
+      border-color: rgba(255,255,255,0.3);
+    }
+
     /* ── QUESTION SCREENS ── */
     .question-screen {
       padding: 40px 24px;
@@ -1487,9 +1970,45 @@
         <div class="response-from-label">Tony Robbins</div>
       </div>
       <div class="response-bubble" id="response-m1"></div>
-      <button class="btn-response-continue" onclick="goTo('screen-map-reveal')">
+      <button class="btn-response-continue" onclick="goTo('screen-map-building')">
         Build My MAP &nbsp;&rarr;
       </button>
+    </div>
+  </div>
+
+  <!-- SCREEN — MAP BUILDING INTERSTITIAL -->
+  <div class="screen" id="screen-map-building" style="background:#000510;">
+    <div class="building-orb building-orb-1"></div>
+    <div class="building-orb building-orb-2"></div>
+
+    <div class="building-content">
+      <div class="building-rpm-badge">
+        <div class="building-rpm-dot"></div>
+        <div class="building-rpm-text">Building Your MAP</div>
+      </div>
+
+      <div class="building-lines">
+        <div class="building-line" id="bline-1">
+          <span class="building-line-check">✓</span>Analyzing your vision
+        </div>
+        <div class="building-line" id="bline-2">
+          <span class="building-line-check">✓</span>Connecting your purpose
+        </div>
+        <div class="building-line" id="bline-3">
+          <span class="building-line-check">✓</span>Building your action framework
+        </div>
+        <div class="building-line" id="bline-4">
+          <span class="building-line-check">✓</span>Identifying your non-negotiables
+        </div>
+        <div class="building-line" id="bline-5">
+          <span class="building-line-check">✓</span>Personalizing your coaching insights
+        </div>
+      </div>
+
+      <div class="building-progress-wrap">
+        <div class="building-progress-bar" id="building-prog"></div>
+      </div>
+      <div class="building-status" id="building-status">Initializing...</div>
     </div>
   </div>
 
@@ -1497,70 +2016,101 @@
   <div class="screen" id="screen-map-reveal">
     <div class="map-reveal-inner">
 
-      <div class="map-reveal-header">
-        <div class="map-reveal-eyebrow">Tony Robbins RPM Framework</div>
-        <div class="map-reveal-title">YOUR MAP</div>
-        <div class="map-reveal-subtitle">Massive Action Plan</div>
+      <!-- Hero -->
+      <div class="map-hero">
+        <div class="map-hero-bg"></div>
+        <div class="map-hero-glow-top"></div>
+        <div class="map-hero-content">
+          <div class="map-hero-eyebrow">Tony Robbins RPM Framework</div>
+          <div class="map-hero-title">YOUR MAP</div>
+          <div class="map-hero-sub">Massive Action Plan</div>
+          <div class="map-hero-name" id="map-hero-name">Your Personal Plan</div>
+        </div>
       </div>
 
-      <div class="map-divider"></div>
-
-      <!-- Section 1: Your Result -->
-      <div class="map-section">
-        <div class="map-section-header">
-          <div class="map-section-number">R</div>
-          <div class="map-section-title">Your Result</div>
+      <!-- Your Answers Drawer -->
+      <div class="map-answers-drawer" id="answers-drawer">
+        <button class="map-answers-toggle" onclick="toggleAnswers()">
+          <span>Your Answers</span>
+          <span class="map-answers-chevron">▼</span>
+        </button>
+        <div class="map-answers-body">
+          <div class="map-answer-row">
+            <div class="map-answer-row-label">Results — What pulls you</div>
+            <div class="map-answer-row-text" id="drawer-r1"></div>
+          </div>
+          <div class="map-answer-row">
+            <div class="map-answer-row-label">Purpose — Why it matters</div>
+            <div class="map-answer-row-text" id="drawer-p1"></div>
+          </div>
+          <div class="map-answer-row">
+            <div class="map-answer-row-label">Massive Action — Your categories</div>
+            <div class="map-answer-row-text" id="drawer-m1"></div>
+          </div>
         </div>
-        <div class="map-section-framing">
-          This is what you're after. Not what sounds responsible — what you actually want. Hold this like a target.
-        </div>
-        <div class="map-section-answer" id="map-answer-r1"></div>
       </div>
 
-      <div class="map-divider"></div>
+      <!-- MAP Body -->
+      <div class="map-body">
 
-      <!-- Section 2: Your Purpose -->
-      <div class="map-section">
-        <div class="map-section-header">
-          <div class="map-section-number">P</div>
-          <div class="map-section-title">Your Purpose</div>
+        <!-- Section A: Result Reframed -->
+        <div class="map-section-card" id="map-card-a">
+          <div class="map-card-label">
+            <div class="map-card-badge badge-r">R</div>
+            <div class="map-card-title">Your Result — Reframed</div>
+          </div>
+          <div class="map-card-body" id="map-card-a-body"></div>
         </div>
-        <div class="map-section-framing">
-          Purpose is stronger than the object. This is the fuel that doesn't run out when things get hard.
+
+        <!-- Section B: Why This Will Work -->
+        <div class="map-section-card" id="map-card-b">
+          <div class="map-card-label">
+            <div class="map-card-badge badge-p">P</div>
+            <div class="map-card-title">Why This Will Work</div>
+          </div>
+          <div class="map-card-body" id="map-card-b-body"></div>
         </div>
-        <div class="map-section-answer" id="map-answer-p1"></div>
+
+        <!-- Section C: First 7 Days — Non-Negotiables -->
+        <div class="map-section-card" id="map-card-c">
+          <div class="map-card-label">
+            <div class="map-card-badge badge-7">7</div>
+            <div class="map-card-title">Your First 7 Days — Non-Negotiables</div>
+          </div>
+          <div class="map-card-body">
+            <div style="font-size:0.9em; color:rgba(255,255,255,0.45); margin-bottom:14px; font-style:italic;">
+              These are not suggestions. These are commitments. If you do nothing else this week — do these.
+            </div>
+            <ul class="nonneg-list" id="map-nonneg-list"></ul>
+          </div>
+        </div>
+
+        <!-- Section D: Pattern Interrupt -->
+        <div class="map-section-card" id="map-card-d">
+          <div class="map-card-label">
+            <div class="map-card-badge badge-pi">!</div>
+            <div class="map-card-title">The Pattern Interrupt</div>
+          </div>
+          <div class="map-card-body" id="map-card-d-body"></div>
+        </div>
+
+        <!-- Section E: Commitment Declaration -->
+        <div class="map-commitment-card" id="map-card-e">
+          <div class="map-commitment-eyebrow">Your Commitment Declaration</div>
+          <div class="map-commitment-declaration" id="map-declaration"></div>
+          <div class="map-tony-quote-block">
+            <div class="map-tony-quote-text">
+              "The road to someday leads to a town called nowhere. You don't want to be there. This is your MAP. This is your moment. Now go execute — with everything you have."
+            </div>
+            <div class="map-tony-quote-attr">— Tony Robbins</div>
+          </div>
+        </div>
+
+        <button class="btn-map-restart" onclick="goTo('screen-start')">
+          ↺ &nbsp; Start Over
+        </button>
+
       </div>
-
-      <div class="map-divider"></div>
-
-      <!-- Section 3: Your Action Categories -->
-      <div class="map-section">
-        <div class="map-section-header">
-          <div class="map-section-number">M</div>
-          <div class="map-section-title">Your Massive Action Plan</div>
-        </div>
-        <div class="map-section-framing">
-          Massive action is the cure-all. These are the pillars your plan is built on.
-        </div>
-        <div class="map-section-answer" id="map-answer-m1"></div>
-      </div>
-
-      <div class="map-divider"></div>
-
-      <!-- Commitment box -->
-      <div class="map-commitment-box">
-        <div class="map-commitment-label">Your Commitment</div>
-        <div class="map-commitment-text" id="map-commitment-text"></div>
-        <div class="map-tony-closing">
-          "The road to someday leads to a town called nowhere. This is your MAP. This is your moment. Now go execute."
-        </div>
-        <div class="map-tony-attr">— Tony Robbins</div>
-      </div>
-
-      <button class="btn-map-restart" onclick="goTo('screen-start')">
-        ↺ &nbsp; Start Over
-      </button>
-
     </div>
   </div>
 
@@ -1797,21 +2347,111 @@
     showResponse('recap-m1', 'response-m1', answer, RESPONSES_M1);
   }
 
+  // ── MAP BUILDING INTERSTITIAL ────────────────────────────
+
+  function runBuildingCeremony() {
+    var lines = ['bline-1','bline-2','bline-3','bline-4','bline-5'];
+    var statuses = ['Analyzing vision...','Connecting purpose...','Building framework...','Identifying non-negotiables...','Finalizing your MAP...','Your MAP is ready.'];
+    var progBar = document.getElementById('building-prog');
+    var statusEl = document.getElementById('building-status');
+    var progVals = [18, 36, 54, 72, 90, 100];
+
+    lines.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) { el.classList.remove('lit'); }
+    });
+    if (progBar) progBar.style.width = '0%';
+
+    lines.forEach(function(id, i) {
+      setTimeout(function() {
+        if (currentScreen !== 'screen-map-building') return;
+        var el = document.getElementById(id);
+        if (el) el.classList.add('lit');
+        if (progBar) progBar.style.width = progVals[i] + '%';
+        if (statusEl) statusEl.textContent = statuses[i];
+      }, 600 + i * 700);
+    });
+
+    // Final state then auto-advance
+    setTimeout(function() {
+      if (currentScreen !== 'screen-map-building') return;
+      if (progBar) progBar.style.width = '100%';
+      if (statusEl) statusEl.textContent = statuses[5];
+      setTimeout(function() {
+        if (currentScreen === 'screen-map-building') goTo('screen-map-reveal');
+      }, 800);
+    }, 600 + 5 * 700 + 400);
+  }
+
+  // ── ANSWERS DRAWER ────────────────────────────────────────
+
+  function toggleAnswers() {
+    var drawer = document.getElementById('answers-drawer');
+    if (drawer) drawer.classList.toggle('open');
+  }
+
   // ── MAP REVEAL BUILDER ────────────────────────────────────
 
   function buildMapReveal() {
-    var r1 = document.getElementById('answer-q1').value.trim() || '[Your result]';
-    var p1 = document.getElementById('answer-purpose-q1').value.trim() || '[Your purpose]';
-    var m1 = document.getElementById('answer-map-q1').value.trim() || '[Your action categories]';
+    var r1 = document.getElementById('answer-q1').value.trim() || 'build something that matters';
+    var p1 = document.getElementById('answer-purpose-q1').value.trim() || 'I want to create a life on my own terms';
+    var m1 = document.getElementById('answer-map-q1').value.trim() || 'Skills, Relationships, Finance, Health';
 
-    document.getElementById('map-answer-r1').textContent = r1;
-    document.getElementById('map-answer-p1').textContent = p1;
-    document.getElementById('map-answer-m1').textContent = m1;
+    // Populate answers drawer
+    var dr1 = document.getElementById('drawer-r1');
+    var dp1 = document.getElementById('drawer-p1');
+    var dm1 = document.getElementById('drawer-m1');
+    if (dr1) dr1.textContent = r1;
+    if (dp1) dp1.textContent = p1;
+    if (dm1) dm1.textContent = m1;
 
-    // Build commitment text using their actual answers
-    var commitText = document.getElementById('map-commitment-text');
-    commitText.innerHTML = 'You are committed to achieving <em>' + r1 + '</em> because ' +
-      p1.toLowerCase().replace(/\.$/, "") + ". Your plan is built. Now it's time to execute.";
+    // Section A — Result Reframed
+    var cardA = document.getElementById('map-card-a-body');
+    if (cardA) cardA.innerHTML = "What you wrote points at something real. But let's sharpen it. <em>" + r1 + "</em> — that's the direction. Now here's the result: <strong>you will have achieved this when you can point to something specific, measurable, and undeniable.</strong> Your brain doesn't respond to wishes. It responds to targets. Hold this result like a destination in your GPS — clear, locked in, non-negotiable.";
+
+    // Section B — Why This Will Work
+    var cardB = document.getElementById('map-card-b-body');
+    if (cardB) cardB.innerHTML = "Here's what I notice about your why: <em>" + p1 + "</em>. <strong>There's something real in there — don't lose it.</strong> Purpose is the engine that runs when willpower runs out. And willpower always runs out. Most people fail not because they lack a plan — they fail because their why isn't strong enough to survive a hard Tuesday at 11pm when nothing is working. Your job between now and then is to make that why <em>unignorable</em>. Write it on a card. Put it where you'll see it. Read it out loud. Make it a physical object in your life, not just a thought.";
+
+    // Section C — Non-Negotiables
+    var list = document.getElementById('map-nonneg-list');
+    if (list) {
+      var nonneg = [
+        { n:'01', text: '<strong>Block 90 minutes</strong> this week — non-negotiable, in your calendar now — to work on nothing but your top action category from your MAP.' },
+        { n:'02', text: '<strong>Tell one person</strong> what you just committed to. Not a text. A real conversation. Shared commitment creates accountability that self-commitment never can.' },
+        { n:'03', text: '<strong>Identify the single biggest obstacle</strong> between you and your result — and write down one specific action you will take to begin removing it before Friday.' },
+        { n:'04', text: '<strong>Read your purpose statement out loud</strong> every morning this week — before you check your phone, before you open email. 60 seconds. Every day. Non-negotiable.' },
+        { n:'05', text: '<strong>Schedule your 7-day check-in</strong> — put a recurring reminder in your calendar for next week to assess: Did I do what I said? What needs to change?' },
+      ];
+      list.innerHTML = nonneg.map(function(item) {
+        return '<li class="nonneg-item"><span class="nonneg-number">' + item.n + '</span><span class="nonneg-text">' + item.text + '</span></li>';
+      }).join('');
+    }
+
+    // Section D — Pattern Interrupt
+    var cardD = document.getElementById('map-card-d-body');
+    if (cardD) cardD.innerHTML = "Here's what I want to say to you directly, and I want you to hear this: <strong>the fact that you haven't done this yet is not about capability.</strong> It never is. It's about identity. Somewhere, at some level, you've been operating as someone for whom this result is a dream — not a decision. <em>That changes today.</em> Every day you don't move is a vote for the old story. Every action you take — no matter how small — is a vote for the new one. The question isn't whether you can achieve this. The question is: <strong>who do you decide to be starting right now?</strong>";
+
+    // Section E — Commitment Declaration
+    var declaration = document.getElementById('map-declaration');
+    if (declaration) {
+      declaration.innerHTML = "I am committed to <em>" + r1 + "</em> — not someday, not when conditions are perfect, but <em>now.</em><br/><br/>My purpose is clear. My plan is built. And I know that <em>massive action is the cure-all.</em><br/><br/><strong>This is my MAP. This is my moment.</strong>";
+    }
+
+    // Stagger card reveals
+    var cards = ['map-card-a','map-card-b','map-card-c','map-card-d','map-card-e'];
+    cards.forEach(function(id, i) {
+      var el = document.getElementById(id);
+      if (el) el.classList.remove('revealed');
+    });
+    setTimeout(function() {
+      cards.forEach(function(id, i) {
+        setTimeout(function() {
+          var el = document.getElementById(id);
+          if (el) el.classList.add('revealed');
+        }, i * 180);
+      });
+    }, 100);
   }
 
   // Screen order for determining slide direction
@@ -1827,6 +2467,7 @@
     'screen-map-open',
     'screen-map-q1',
     'screen-response-m1',
+    'screen-map-building',
     'screen-map-reveal'
   ];
 
@@ -1841,6 +2482,7 @@
     'screen-map-open':      { show: true, r: 100, p: 100, m: 5,  activePhase: 'm' },
     'screen-map-q1':        { show: true, r: 100, p: 100, m: 60, activePhase: 'm' },
     'screen-response-m1':   { show: true, r: 100, p: 100, m: 90, activePhase: 'm' },
+    'screen-map-building':  { show: true, r: 100, p: 100, m: 100, activePhase: 'm' },
     'screen-map-reveal':    { show: true, r: 100, p: 100, m: 100, activePhase: 'm' },
   };
 
@@ -1960,9 +2602,12 @@
     } else if (id === 'screen-map-q1') {
       pauseVimeo();
       playMapQ1AudioDelayed();
-    } else if (id === 'screen-map-reveal') {
+    } else if (id === 'screen-map-building') {
       pauseVimeo();
       buildMapReveal();
+      runBuildingCeremony();
+    } else if (id === 'screen-map-reveal') {
+      pauseVimeo();
     } else {
       pauseVimeo();
       hideEndOverlay();
