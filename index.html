@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#001f3f" />
   <title>Design Your Life — Tony Robbins RPM</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -122,27 +123,33 @@
     /* ── VIDEO UNMUTE BUTTON ── */
     #btn-unmute {
       position: absolute;
-      top: 24px; left: 50%;
+      top: 20px; left: 50%;
       transform: translateX(-50%);
-      z-index: 20;
-      display: flex; align-items: center; gap: 10px;
-      padding: 12px 28px;
-      background: rgba(0,0,0,0.55);
+      z-index: 9999;
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 36px;
+      background: #001f3f;
       border: 2px solid var(--gold);
       border-radius: 50px;
       color: var(--gold);
-      font-size: clamp(0.8em, 2vw, 0.95em);
+      font-size: clamp(0.95em, 3vw, 1.1em);
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       cursor: pointer;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 0 16px rgba(240,197,93,0.25), 0 0 40px rgba(240,197,93,0.08);
-      transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s, opacity 0.4s;
+      white-space: nowrap;
+      min-width: 220px;
+      justify-content: center;
+      box-shadow: 0 0 0 6px #001f3f,
+                  0 0 20px rgba(240,197,93,0.3),
+                  0 0 50px rgba(240,197,93,0.1);
+      transition: background 0.2s, box-shadow 0.2s, opacity 0.4s;
     }
 
     #btn-unmute:hover {
-      background: rgba(240,197,93,0.15);
-      box-shadow: 0 0 24px rgba(240,197,93,0.45), 0 0 60px rgba(240,197,93,0.15);
+      background: #002a55;
+      box-shadow: 0 0 0 6px #002a55,
+                  0 0 28px rgba(240,197,93,0.5),
+                  0 0 70px rgba(240,197,93,0.2);
     }
 
     #btn-unmute.hidden {
