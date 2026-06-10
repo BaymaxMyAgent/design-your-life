@@ -1794,6 +1794,342 @@
 
     .btn-rpm-begin:active { transform: scale(0.97); }
 
+
+    /* ── CARD ACTION BUTTONS ── */
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .btn-card-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      font-size: 0.72em;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s, color 0.2s, transform 0.1s;
+      border: none;
+      white-space: nowrap;
+    }
+
+    .btn-card-action:active { transform: scale(0.95); }
+
+    .btn-action-print {
+      background: rgba(240,197,93,0.12);
+      color: var(--gold);
+      border: 1px solid rgba(240,197,93,0.25);
+    }
+
+    .btn-action-print:hover {
+      background: rgba(240,197,93,0.2);
+    }
+
+    .btn-action-copy {
+      background: rgba(94,186,221,0.1);
+      color: var(--cyan);
+      border: 1px solid rgba(94,186,221,0.2);
+    }
+
+    .btn-action-copy:hover {
+      background: rgba(94,186,221,0.18);
+    }
+
+    .btn-action-calendar {
+      background: rgba(0,234,255,0.08);
+      color: #00eaff;
+      border: 1px solid rgba(0,234,255,0.2);
+    }
+
+    .btn-action-calendar:hover {
+      background: rgba(0,234,255,0.15);
+    }
+
+    .btn-action-remind {
+      background: rgba(180,100,255,0.1);
+      color: #c084fc;
+      border: 1px solid rgba(180,100,255,0.2);
+    }
+
+    .btn-action-remind:hover {
+      background: rgba(180,100,255,0.18);
+    }
+
+    /* ── CLIPBOARD TOAST (reused for all copy actions) ── */
+    /* Already defined as .share-toast — we reuse that */
+
+    /* ── PRINT STYLES — wall card ── */
+    @media print {
+      body * { visibility: hidden !important; }
+      #print-wall-card,
+      #print-wall-card * { visibility: visible !important; }
+      #print-wall-card {
+        position: fixed !important;
+        top: 0 !important; left: 0 !important;
+        width: 100vw !important; height: 100vh !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: #000b1e !important;
+        padding: 48px !important;
+        z-index: 99999 !important;
+      }
+    }
+
+    /* ── WALL CARD OVERLAY ── */
+    #wall-card-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+    }
+
+    #wall-card-overlay.open { display: flex; }
+
+    #print-wall-card {
+      background: #000b1e;
+      border: 1px solid rgba(240,197,93,0.3);
+      border-radius: 20px;
+      padding: 44px 36px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 0 80px rgba(240,197,93,0.08), 0 0 160px rgba(94,186,221,0.06);
+    }
+
+    .wall-card-close {
+      position: absolute;
+      top: 14px; right: 18px;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.3);
+      font-size: 1.4em;
+      cursor: pointer;
+      font-family: inherit;
+      line-height: 1;
+      padding: 4px;
+    }
+
+    .wall-card-close:hover { color: rgba(255,255,255,0.7); }
+
+    .wall-card-eyebrow {
+      font-size: 0.58em;
+      letter-spacing: 0.3em;
+      color: var(--cyan);
+      opacity: 0.6;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .wall-card-rpm {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 24px;
+    }
+
+    .wall-card-rpm-letter {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8em; font-weight: 900;
+    }
+
+    .wall-card-statement {
+      font-size: clamp(1.1em, 3.5vw, 1.4em);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.55;
+      margin-bottom: 28px;
+    }
+
+    .wall-card-statement em {
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    .wall-card-divider {
+      width: 48px; height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--gold));
+      border-radius: 2px;
+      margin: 0 auto 20px;
+    }
+
+    .wall-card-attr {
+      font-size: 0.65em;
+      letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .wall-card-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-wall-print {
+      padding: 13px 0;
+      font-size: 0.9em;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--navy);
+      background: linear-gradient(135deg, var(--gold), #e0b040);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: transform 0.12s;
+    }
+
+    .btn-wall-print:active { transform: scale(0.97); }
+
+    .btn-wall-dismiss {
+      padding: 12px 0;
+      font-size: 0.85em;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.4);
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* ── CALENDAR MODAL ── */
+    #calendar-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+
+    #calendar-modal.open { display: flex; }
+
+    .cal-sheet {
+      background: #000f28;
+      border: 1px solid rgba(0,234,255,0.15);
+      border-radius: 20px 20px 0 0;
+      padding: 28px 24px 32px;
+      padding-bottom: max(32px, env(safe-area-inset-bottom, 32px));
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .cal-handle {
+      width: 36px; height: 4px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 2px;
+      margin: 0 auto 20px;
+    }
+
+    .cal-title {
+      font-size: 0.68em;
+      letter-spacing: 0.22em;
+      color: #00eaff;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .cal-headline {
+      font-size: clamp(1.1em, 3vw, 1.25em);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .cal-sub {
+      font-size: 0.85em;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.55;
+      margin-bottom: 22px;
+    }
+
+    .cal-preview {
+      background: rgba(0,234,255,0.05);
+      border: 1px solid rgba(0,234,255,0.12);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+    }
+
+    .cal-preview-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.82em;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.4;
+    }
+
+    .cal-preview-item:last-child { border-bottom: none; }
+
+    .cal-day {
+      font-size: 0.72em;
+      font-weight: 700;
+      color: #00eaff;
+      min-width: 28px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .cal-buttons { display: flex; flex-direction: column; gap: 10px; }
+
+    .btn-cal-download {
+      width: 100%;
+      padding: 14px 0;
+      font-size: 0.95em;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--navy);
+      background: linear-gradient(135deg, #00eaff, var(--cyan));
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 0 18px rgba(0,234,255,0.2);
+      transition: transform 0.12s;
+    }
+
+    .btn-cal-download:active { transform: scale(0.97); }
+
+    .btn-cal-dismiss {
+      width: 100%;
+      padding: 12px 0;
+      font-size: 0.88em;
+      color: rgba(255,255,255,0.35);
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
     /* ── QUESTION SCREENS ── */
     .question-screen {
       padding: 40px 24px;
@@ -2600,6 +2936,14 @@
             <div class="map-card-title">Your Result — Reframed</div>
           </div>
           <div class="map-card-body" id="map-card-a-body"></div>
+          <div class="card-actions">
+            <button class="btn-card-action btn-action-print" onclick="openWallCard('result')">
+              🖨 &nbsp; Print as Wall Statement
+            </button>
+            <button class="btn-card-action btn-action-copy" onclick="copySection('result')">
+              📋 &nbsp; Copy
+            </button>
+          </div>
         </div>
 
         <!-- Section B: Why This Will Work -->
@@ -2622,6 +2966,14 @@
               These are not suggestions. These are not goals. These are <strong style="color:rgba(255,255,255,0.7); font-style:normal;">commitments</strong> — the minimum viable actions that move everything else. If you do nothing else this week, you do these seven things.
             </div>
             <ul class="nonneg-list" id="map-nonneg-list"></ul>
+            <div class="card-actions">
+              <button class="btn-card-action btn-action-calendar" onclick="openCalModal()">
+                📅 &nbsp; Add to Calendar
+              </button>
+              <button class="btn-card-action btn-action-copy" onclick="copySection('nonneg')">
+                📋 &nbsp; Copy All 7
+              </button>
+            </div>
           </div>
         </div>
 
@@ -2638,6 +2990,14 @@
         <div class="map-commitment-card" id="map-card-e">
           <div class="map-commitment-eyebrow">Your Commitment Declaration</div>
           <div class="map-commitment-declaration" id="map-declaration"></div>
+          <div class="card-actions" style="justify-content:center; border-top:1px solid rgba(255,255,255,0.08); margin-top:20px; padding-top:16px;">
+            <button class="btn-card-action btn-action-print" onclick="openWallCard('commitment')">
+              🖨 &nbsp; Print as Wall Statement
+            </button>
+            <button class="btn-card-action btn-action-copy" onclick="copySection('commitment')">
+              📋 &nbsp; Copy Declaration
+            </button>
+          </div>
           <div class="map-tony-quote-block">
             <div class="map-tony-quote-text">
               "The road to someday leads to a town called nowhere. You don't want to be there. This is your MAP. This is your moment. Now go execute — with everything you have."
@@ -2661,6 +3021,41 @@
           </div>
         </div>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- Wall Card Print Overlay -->
+  <div id="wall-card-overlay">
+    <div id="print-wall-card">
+      <button class="wall-card-close" onclick="closeWallCard()">&#x2715;</button>
+      <div class="wall-card-eyebrow">Tony Robbins RPM Framework</div>
+      <div class="wall-card-rpm">
+        <div class="wall-card-rpm-letter" style="background:rgba(94,186,221,0.15);color:var(--cyan)">R</div>
+        <div class="wall-card-rpm-letter" style="background:rgba(240,197,93,0.15);color:var(--gold)">P</div>
+        <div class="wall-card-rpm-letter" style="background:rgba(0,234,255,0.12);color:#00eaff">M</div>
+      </div>
+      <div class="wall-card-statement" id="wall-card-text"></div>
+      <div class="wall-card-divider"></div>
+      <div class="wall-card-attr" id="wall-card-attr">Your Massive Action Plan</div>
+      <div class="wall-card-buttons">
+        <button class="btn-wall-print" onclick="window.print()">🖨 &nbsp; Print / Save as PDF</button>
+        <button class="btn-wall-dismiss" onclick="closeWallCard()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calendar Modal -->
+  <div id="calendar-modal">
+    <div class="cal-sheet">
+      <div class="cal-handle"></div>
+      <div class="cal-title">Your First 7 Days</div>
+      <div class="cal-headline">Add Non-Negotiables to Calendar</div>
+      <div class="cal-sub">Downloads a .ics file — tap to import into Apple Calendar, Google Calendar, or Outlook. Each non-negotiable becomes a daily event for the next 7 days.</div>
+      <div class="cal-preview" id="cal-preview"></div>
+      <div class="cal-buttons">
+        <button class="btn-cal-download" onclick="downloadICS()">📅 &nbsp; Download Calendar File</button>
+        <button class="btn-cal-dismiss" onclick="closeCalModal()">Dismiss</button>
       </div>
     </div>
   </div>
@@ -2950,6 +3345,167 @@
 
   // ── MAP REVEAL BUILDER ────────────────────────────────────
 
+
+  // ── WALL CARD ─────────────────────────────────────────────
+
+  var wallCardData = {};
+
+  function openWallCard(type) {
+    var text = '';
+    var attr = '';
+    var r1 = document.getElementById('answer-q1').value.trim() || 'build something that matters';
+    var p1 = document.getElementById('answer-purpose-q1').value.trim() || 'create a life I am proud of';
+
+    if (type === 'result') {
+      text = '\u201c' + r1 + '\u201d';
+      attr = 'My Result &nbsp;\u00b7&nbsp; Tony Robbins RPM Framework';
+    } else if (type === 'commitment') {
+      text = 'I am committed to \u201c' + r1 + '\u201d \u2014 not someday, not when conditions are perfect, but <em>now</em>. Massive action is the cure-all.';
+      attr = 'My Commitment Declaration &nbsp;\u00b7&nbsp; ' + new Date().toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+    }
+
+    document.getElementById('wall-card-text').innerHTML = text;
+    document.getElementById('wall-card-attr').innerHTML = attr;
+    document.getElementById('wall-card-overlay').classList.add('open');
+  }
+
+  function closeWallCard() {
+    document.getElementById('wall-card-overlay').classList.remove('open');
+  }
+
+  // ── COPY SECTION ──────────────────────────────────────────
+
+  function copySection(type) {
+    var text = '';
+    var r1 = document.getElementById('answer-q1').value.trim() || 'build something that matters';
+    var p1 = document.getElementById('answer-purpose-q1').value.trim() || 'create a life I am proud of';
+
+    if (type === 'result') {
+      text = 'MY RESULT\n\n' + r1 + '\n\n\u2014 Tony Robbins RPM Framework';
+    } else if (type === 'commitment') {
+      var decEl = document.getElementById('map-declaration');
+      text = decEl ? (decEl.innerText || decEl.textContent) : '';
+    } else if (type === 'nonneg') {
+      var items = document.querySelectorAll('#map-nonneg-list .nonneg-text');
+      var lines = ['MY FIRST 7 DAYS \u2014 NON-NEGOTIABLES\n'];
+      items.forEach(function(el, i) {
+        lines.push((i+1) + '. ' + (el.innerText || el.textContent).trim());
+      });
+      text = lines.join('\n');
+    }
+
+    if (navigator.clipboard && text) {
+      navigator.clipboard.writeText(text).then(function() {
+        showToast('\u2713 Copied to clipboard');
+      }).catch(function() {
+        showToast('Select and copy the text manually');
+      });
+    }
+  }
+
+  // ── CALENDAR ICS ──────────────────────────────────────────
+
+  var icsNonnegTitles = [];
+
+  function openCalModal() {
+    // Build preview from current non-negotiables
+    var items = document.querySelectorAll('#map-nonneg-list .nonneg-text');
+    var preview = document.getElementById('cal-preview');
+    var days = ['Day 1','Day 2','Day 3','Day 4','Day 5','Day 6','Day 7'];
+
+    icsNonnegTitles = [];
+    var html = '';
+    items.forEach(function(el, i) {
+      var raw = (el.innerText || el.textContent).trim();
+      // Strip the sub-note (everything after "Why this matters:")
+      var mainText = raw.split('Why this matters:')[0].trim();
+      icsNonnegTitles.push(mainText);
+      if (i < 7) {
+        html += '<div class="cal-preview-item">' +
+          '<span class="cal-day">' + (days[i] || 'D'+(i+1)) + '</span>' +
+          '<span>' + mainText.substring(0, 60) + (mainText.length > 60 ? '...' : '') + '</span>' +
+          '</div>';
+      }
+    });
+    if (preview) preview.innerHTML = html;
+    document.getElementById('calendar-modal').classList.add('open');
+  }
+
+  function closeCalModal() {
+    document.getElementById('calendar-modal').classList.remove('open');
+  }
+
+  function padNum(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function toICSDate(d) {
+    return d.getFullYear() + '' + padNum(d.getMonth()+1) + padNum(d.getDate()) +
+      'T' + padNum(d.getHours()) + padNum(d.getMinutes()) + '00';
+  }
+
+  function downloadICS() {
+    var r1 = document.getElementById('answer-q1').value.trim() || 'My RPM Goal';
+    var lines = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Life By Design RPM//EN',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH'
+    ];
+
+    var today = new Date();
+    today.setHours(7, 0, 0, 0); // 7am each day
+
+    icsNonnegTitles.forEach(function(title, i) {
+      var start = new Date(today);
+      start.setDate(today.getDate() + i);
+      var end = new Date(start);
+      end.setHours(7, 30, 0, 0); // 30 min event
+
+      // Clean title for ICS
+      var cleanTitle = title.replace(/[^\w\s\-\u2014\u2019\u201c\u201d]/g, '').substring(0, 80);
+
+      lines = lines.concat([
+        'BEGIN:VEVENT',
+        'DTSTART:' + toICSDate(start),
+        'DTEND:' + toICSDate(end),
+        'SUMMARY:RPM Day ' + (i+1) + ': ' + cleanTitle,
+        'DESCRIPTION:Part of your 7-Day Non-Negotiables from your Tony Robbins RPM MAP. Goal: ' + r1.substring(0,100),
+        'BEGIN:VALARM',
+        'TRIGGER:-PT0M',
+        'ACTION:DISPLAY',
+        'DESCRIPTION:RPM Non-Negotiable Reminder',
+        'END:VALARM',
+        'END:VEVENT'
+      ]);
+    });
+
+    lines.push('END:VCALENDAR');
+
+    var icsContent = lines.join('\r\n');
+    var blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'RPM-7-Day-NonNegotiables.ics';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    closeCalModal();
+    showToast('\u2713 Calendar file downloaded');
+  }
+
+  // ── TOAST HELPER ──────────────────────────────────────────
+
+  function showToast(msg) {
+    var toast = document.getElementById('share-toast');
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, 2800);
+  }
+
   // ── SHARE MAP ─────────────────────────────────────────────
   function shareMap() {
     var url = window.location.href;
@@ -2957,11 +3513,7 @@
       navigator.share({ title: 'My Tony Robbins MAP', text: 'I just built my Massive Action Plan.', url: url }).catch(function(){});
     } else if (navigator.clipboard) {
       navigator.clipboard.writeText(url).then(function() {
-        var toast = document.getElementById('share-toast');
-        if (toast) {
-          toast.classList.add('show');
-          setTimeout(function() { toast.classList.remove('show'); }, 2800);
-        }
+        showToast('\u2713 Link copied to clipboard');
       }).catch(function(){});
     }
   }
