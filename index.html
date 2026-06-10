@@ -121,67 +121,102 @@
     }
 
 
-    /* ── VIDEO ANIMATED BORDER ── */
+    /* ── VIDEO ANIMATED BORDER ── Safari/iOS compatible approach ── */
+
+    /* Four glowing edge bars that pulse in sequence — no @property needed */
     #video-border-frame {
       position: absolute; inset: 0;
       z-index: 10;
       pointer-events: none;
-      overflow: hidden;
     }
 
-    /* Rotating conic gradient border — sits as an inset ring */
-    #video-border-frame::before {
-      content: '';
+    .vbf-edge {
       position: absolute;
-      inset: -4px;
-      border-radius: 0;
-      background: conic-gradient(
-        from var(--border-angle, 0deg),
-        var(--gold)      0%,
-        var(--cyan)      18%,
-        transparent      28%,
-        transparent      50%,
-        var(--cyan)      60%,
-        var(--gold)      75%,
-        transparent      85%,
-        transparent      100%
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--cyan)  30%,
+        var(--gold)  50%,
+        var(--cyan)  70%,
+        transparent  100%
       );
-      animation: borderSpin 4s linear infinite;
-      -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      padding: 3px;
-      opacity: 0.75;
+      opacity: 0;
+      animation: edgePulse 3.2s ease-in-out infinite;
     }
 
-    /* Inner soft glow edge — adds depth without harshness */
+    /* Top edge */
+    .vbf-edge--top {
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      animation-delay: 0s;
+    }
+
+    /* Right edge — rotated */
+    .vbf-edge--right {
+      top: 0; right: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        var(--cyan)  30%,
+        var(--gold)  50%,
+        var(--cyan)  70%,
+        transparent  100%
+      );
+      animation-delay: 0.8s;
+    }
+
+    /* Bottom edge */
+    .vbf-edge--bottom {
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      animation-delay: 1.6s;
+    }
+
+    /* Left edge */
+    .vbf-edge--left {
+      top: 0; left: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        var(--cyan)  30%,
+        var(--gold)  50%,
+        var(--cyan)  70%,
+        transparent  100%
+      );
+      animation-delay: 2.4s;
+    }
+
+    @keyframes edgePulse {
+      0%   { opacity: 0;    }
+      15%  { opacity: 0.9;  }
+      40%  { opacity: 0.6;  }
+      70%  { opacity: 0;    }
+      100% { opacity: 0;    }
+    }
+
+    /* Persistent inner glow — always on, breathes gently */
     #video-border-frame::after {
       content: '';
       position: absolute;
       inset: 0;
-      box-shadow:
-        inset 0 0 22px rgba(94,186,221,0.18),
-        inset 0 0 5px  rgba(240,197,93,0.12);
       pointer-events: none;
+      box-shadow:
+        inset 0 0 40px rgba(94,186,221,0.12),
+        inset 0 0 12px rgba(94,186,221,0.08);
+      animation: glowBreathe 4s ease-in-out infinite;
     }
 
-    @keyframes borderSpin {
-      from { --border-angle: 0deg; }
-      to   { --border-angle: 360deg; }
+    @keyframes glowBreathe {
+      0%, 100% { opacity: 0.6; }
+      50%       { opacity: 1;   }
     }
 
-    @property --border-angle {
-      syntax: '<angle>';
-      initial-value: 0deg;
-      inherits: false;
-    }
-
-    /* Corner accent marks — reinforce the frame at each corner */
+    /* Corner accent marks — bold, visible on mobile */
     .video-corner {
       position: absolute;
-      width: 28px; height: 28px;
+      width: 40px; height: 40px;
       z-index: 11;
       pointer-events: none;
     }
@@ -191,45 +226,51 @@
       content: '';
       position: absolute;
       background: var(--gold);
-      border-radius: 1px;
-      opacity: 0.9;
+      border-radius: 1.5px;
+      box-shadow: 0 0 8px rgba(240,197,93,0.7), 0 0 20px rgba(240,197,93,0.3);
     }
 
-    .video-corner--tl { top: 12px; left: 12px; }
-    .video-corner--tr { top: 12px; right: 12px; transform: scaleX(-1); }
-    .video-corner--bl { bottom: 12px; left: 12px; transform: scaleY(-1); }
-    .video-corner--br { bottom: 12px; right: 12px; transform: scale(-1); }
+    .video-corner::before { width: 100%; height: 3px; top: 0; left: 0; }
+    .video-corner::after  { width: 3px; height: 100%; top: 0; left: 0; }
 
-    .video-corner::before { width: 100%; height: 2.5px; top: 0; left: 0; }
-    .video-corner::after  { width: 2.5px; height: 100%; top: 0; left: 0; }
+    .video-corner--tl { top: 16px; left: 16px; }
+    .video-corner--tr { top: 16px; right: 16px; transform: scaleX(-1); }
+    .video-corner--bl { bottom: 16px; left: 16px; transform: scaleY(-1); }
+    .video-corner--br { bottom: 16px; right: 16px; transform: scale(-1); }
 
     /* ── VIDEO BOTTOM BAR ── */
     #video-bottom-bar {
       position: absolute;
       bottom: 0; left: 0; right: 0;
-      z-index: 12;
+      z-index: 13;
       pointer-events: none;
-      padding: 32px 24px 20px;
+      /* Extra bottom padding for iOS safe area / browser chrome */
+      padding: 48px 24px 32px;
+      padding-bottom: max(32px, env(safe-area-inset-bottom, 32px));
       background: linear-gradient(
         to top,
-        rgba(0,10,25,0.88) 0%,
-        rgba(0,15,35,0.65) 55%,
+        rgba(0,5,18,0.95)  0%,
+        rgba(0,10,28,0.82) 40%,
+        rgba(0,15,38,0.5)  70%,
         transparent        100%
       );
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
+      transition: opacity 0.4s ease;
     }
 
+    #video-bottom-bar.hidden { opacity: 0; }
+
     .vbb-lockup {
-      display: flex; align-items: center; gap: 12px;
+      display: flex; align-items: center; gap: 14px;
     }
 
     .vbb-line {
-      width: 28px; height: 1.5px;
+      width: 32px; height: 1.5px;
       background: linear-gradient(90deg, transparent, var(--gold));
-      opacity: 0.6;
+      opacity: 0.7;
     }
 
     .vbb-line-r {
@@ -237,34 +278,20 @@
     }
 
     .vbb-name {
-      font-size: clamp(0.6em, 2vw, 0.75em);
+      font-size: clamp(0.72em, 2.5vw, 0.85em);
       font-weight: 700;
-      letter-spacing: 0.32em;
+      letter-spacing: 0.3em;
       color: var(--gold);
-      opacity: 0.85;
+      opacity: 0.95;
       text-transform: uppercase;
     }
 
     .vbb-title {
-      font-size: clamp(0.55em, 1.8vw, 0.68em);
+      font-size: clamp(0.58em, 1.8vw, 0.68em);
       font-weight: 400;
-      letter-spacing: 0.22em;
-      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.5);
       text-transform: uppercase;
-    }
-
-    /* Hide bottom bar when end overlay is visible */
-    #video-end-overlay.visible ~ #video-bottom-bar,
-    #screen-video:has(#video-end-overlay.visible) #video-bottom-bar {
-      opacity: 0;
-    }
-
-    @media (max-width: 480px) {
-      .video-corner { width: 22px; height: 22px; }
-      .video-corner--tl { top: 10px; left: 10px; }
-      .video-corner--tr { top: 10px; right: 10px; }
-      .video-corner--bl { bottom: 10px; left: 10px; }
-      .video-corner--br { bottom: 10px; right: 10px; }
     }
 
     /* ── VIDEO UNMUTE BUTTON ── */
@@ -312,8 +339,8 @@
     /* ── VIDEO SKIP BUTTON ── */
     #btn-skip-video {
       position: absolute;
-      bottom: 60px; right: 28px;
-      z-index: 20;
+      bottom: 80px; right: 24px;
+      z-index: 25;
       padding: 9px 22px;
       background: transparent;
       border: 1px solid rgba(255,255,255,0.2);
@@ -766,8 +793,13 @@
       <div id="vimeo-player-placeholder"></div>
     </div>
 
-    <!-- Animated border frame -->
-    <div id="video-border-frame"></div>
+    <!-- Animated border frame — four edges pulse in sequence -->
+    <div id="video-border-frame">
+      <div class="vbf-edge vbf-edge--top"></div>
+      <div class="vbf-edge vbf-edge--right"></div>
+      <div class="vbf-edge vbf-edge--bottom"></div>
+      <div class="vbf-edge vbf-edge--left"></div>
+    </div>
 
     <!-- Corner accents -->
     <div class="video-corner video-corner--tl"></div>
@@ -984,6 +1016,8 @@
         if (currentScreen === 'screen-video') {
           var overlay = document.getElementById('video-end-overlay');
           if (overlay) overlay.classList.add('visible');
+          var bar = document.getElementById('video-bottom-bar');
+          if (bar) bar.classList.add('hidden');
         }
       });
     }
@@ -1079,6 +1113,8 @@
 
   function replayVideo() {
     hideEndOverlay();
+    var bar = document.getElementById('video-bottom-bar');
+    if (bar) bar.classList.remove('hidden');
     if (vimeoPlayer) {
       vimeoPlayer.setCurrentTime(0).then(function() {
         vimeoPlayer.play().catch(function(){});
