@@ -1153,7 +1153,7 @@
       <div class="vbb-line vbb-line-r"></div>
     </div>
     <div class="vbb-title">Design Your Life &nbsp;·&nbsp; RPM Experience</div>
-    <button id="btn-skip-video" onclick="goTo('screen-results-open')">
+    <button id="btn-skip-video" onclick="showEndOverlay()">
       Skip Video &nbsp;&#8594;
     </button>
   </div>
@@ -1229,16 +1229,15 @@
       <div class="end-divider"></div>
 
       <div class="end-headline">
-        Ready to <span>Design</span><br/>Your Life?
+        Ready to Build Your MAP<br/>with <span>Tony</span>?
       </div>
       <div class="end-subtext">
-        Tony has laid the foundation.<br/>
-        Now it's your turn to build.
+        Experience the Power of Tony's RPM System
       </div>
 
       <div class="end-buttons">
         <button class="btn-continue-main" onclick="goTo('screen-results-open')">
-          BEGIN YOUR RPM &nbsp;&rarr;
+          Create Your MAP &nbsp;&rarr;
         </button>
         <button class="btn-replay-styled" onclick="replayVideo()">
           ↺ &nbsp; Watch Again
@@ -1979,6 +1978,15 @@
   function hideEndOverlay() {
     var overlay = document.getElementById('video-end-overlay');
     if (overlay) overlay.classList.remove('visible');
+  }
+
+  function showEndOverlay() {
+    // Pause the video, show the end overlay without navigating away
+    pauseVimeo();
+    var overlay = document.getElementById('video-end-overlay');
+    if (overlay) overlay.classList.add('visible');
+    // Hide the video UI bar (skip + Tony Robbins bar) since overlay covers it
+    hideVideoUIBar();
   }
 
   function replayVideo() {
