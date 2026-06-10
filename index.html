@@ -1357,6 +1357,204 @@
       border-color: rgba(255,255,255,0.3);
     }
 
+
+    /* ── RPM MISSION SNAPSHOT ── */
+    .map-rpm-snapshot {
+      margin: 0 20px 8px;
+      background: linear-gradient(135deg, rgba(0,31,63,0.8), rgba(0,10,28,0.9));
+      border: 1px solid rgba(94,186,221,0.2);
+      border-radius: 14px;
+      padding: 22px 22px 18px;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .map-rpm-snapshot.revealed { opacity: 1; transform: translateY(0); }
+
+    .map-rpm-snapshot-title {
+      font-size: 0.58em;
+      letter-spacing: 0.3em;
+      font-weight: 700;
+      color: var(--cyan);
+      opacity: 0.6;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .map-rpm-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .map-rpm-row:last-child { margin-bottom: 0; }
+
+    .map-rpm-pill {
+      font-size: 0.62em;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      padding: 3px 10px;
+      border-radius: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .map-rpm-pill.pill-r { background: rgba(94,186,221,0.15); color: var(--cyan); }
+    .map-rpm-pill.pill-p { background: rgba(240,197,93,0.15); color: var(--gold); }
+    .map-rpm-pill.pill-m { background: rgba(0,234,255,0.12); color: #00eaff; }
+
+    .map-rpm-text {
+      font-size: clamp(0.88em, 2.2vw, 0.95em);
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    /* ── EXPANDED CARD BODY ── */
+    .map-card-body p {
+      margin-bottom: 12px;
+    }
+
+    .map-card-body p:last-child { margin-bottom: 0; }
+
+    .map-card-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+      margin: 14px 0;
+    }
+
+    .map-card-callout {
+      background: rgba(255,255,255,0.04);
+      border-left: 2px solid var(--cyan);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 14px;
+      margin: 14px 0;
+      font-size: 0.93em;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.65;
+      font-style: italic;
+    }
+
+    .map-card-callout.gold { border-left-color: var(--gold); }
+
+    /* ── EXPANDED NON-NEGOTIABLES ── */
+    .nonneg-sub {
+      font-size: 0.82em;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.55;
+      margin-top: 5px;
+    }
+
+    /* ── SAVE / SHARE CTA ── */
+    .map-save-block {
+      margin: 8px 20px 0;
+      background: linear-gradient(135deg, rgba(0,234,255,0.06), rgba(94,186,221,0.04));
+      border: 1px solid rgba(0,234,255,0.18);
+      border-radius: 14px;
+      padding: 24px 22px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .map-save-block.revealed { opacity: 1; transform: translateY(0); }
+
+    .map-save-eyebrow {
+      font-size: 0.6em;
+      letter-spacing: 0.25em;
+      color: var(--cyan);
+      opacity: 0.6;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .map-save-headline {
+      font-size: clamp(1em, 3vw, 1.2em);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .map-save-sub {
+      font-size: 0.82em;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .map-save-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-save-primary {
+      width: 100%;
+      padding: 14px 0;
+      font-size: 0.95em;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--navy);
+      background: linear-gradient(135deg, #00eaff, var(--cyan));
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: transform 0.12s;
+      box-shadow: 0 0 18px rgba(0,234,255,0.2);
+    }
+
+    .btn-save-primary:active { transform: scale(0.97); }
+
+    .btn-save-secondary {
+      width: 100%;
+      padding: 13px 0;
+      font-size: 0.9em;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.55);
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .btn-save-secondary:hover {
+      color: var(--white);
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    /* ── SHARE TOOLTIP ── */
+    .share-toast {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(0,234,255,0.15);
+      border: 1px solid rgba(0,234,255,0.3);
+      border-radius: 50px;
+      padding: 12px 24px;
+      font-size: 0.82em;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--white);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 999;
+      white-space: nowrap;
+    }
+
+    .share-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
     /* ── QUESTION SCREENS ── */
     .question-screen {
       padding: 40px 24px;
@@ -2028,10 +2226,27 @@
         </div>
       </div>
 
+      <!-- RPM Mission Snapshot -->
+      <div class="map-rpm-snapshot" id="map-snapshot">
+        <div class="map-rpm-snapshot-title">Your RPM at a Glance</div>
+        <div class="map-rpm-row">
+          <span class="map-rpm-pill pill-r">R</span>
+          <div class="map-rpm-text" id="snap-r"></div>
+        </div>
+        <div class="map-rpm-row">
+          <span class="map-rpm-pill pill-p">P</span>
+          <div class="map-rpm-text" id="snap-p"></div>
+        </div>
+        <div class="map-rpm-row">
+          <span class="map-rpm-pill pill-m">M</span>
+          <div class="map-rpm-text" id="snap-m"></div>
+        </div>
+      </div>
+
       <!-- Your Answers Drawer -->
-      <div class="map-answers-drawer" id="answers-drawer">
+      <div class="map-answers-drawer" id="answers-drawer" style="margin-top:8px;">
         <button class="map-answers-toggle" onclick="toggleAnswers()">
-          <span>Your Answers</span>
+          <span>Your Full Answers</span>
           <span class="map-answers-chevron">▼</span>
         </button>
         <div class="map-answers-body">
@@ -2071,15 +2286,15 @@
           <div class="map-card-body" id="map-card-b-body"></div>
         </div>
 
-        <!-- Section C: First 7 Days — Non-Negotiables -->
+        <!-- Section C: First 7 Days Non-Negotiables -->
         <div class="map-section-card" id="map-card-c">
           <div class="map-card-label">
             <div class="map-card-badge badge-7">7</div>
             <div class="map-card-title">Your First 7 Days — Non-Negotiables</div>
           </div>
           <div class="map-card-body">
-            <div style="font-size:0.9em; color:rgba(255,255,255,0.45); margin-bottom:14px; font-style:italic;">
-              These are not suggestions. These are commitments. If you do nothing else this week — do these.
+            <div style="font-size:0.88em; color:rgba(255,255,255,0.4); margin-bottom:16px; font-style:italic; line-height:1.6;">
+              These are not suggestions. These are not goals. These are <strong style="color:rgba(255,255,255,0.7); font-style:normal;">commitments</strong> — the minimum viable actions that move everything else. If you do nothing else this week, you do these seven things.
             </div>
             <ul class="nonneg-list" id="map-nonneg-list"></ul>
           </div>
@@ -2106,13 +2321,27 @@
           </div>
         </div>
 
-        <button class="btn-map-restart" onclick="goTo('screen-start')">
-          ↺ &nbsp; Start Over
-        </button>
+        <!-- Save / Share block -->
+        <div class="map-save-block" id="map-save-block">
+          <div class="map-save-eyebrow">Your MAP is Ready</div>
+          <div class="map-save-headline">Save This. Come Back to It.</div>
+          <div class="map-save-sub">Screenshot your MAP or share the link.<br/>The work starts the moment you close this screen.</div>
+          <div class="map-save-buttons">
+            <button class="btn-save-primary" onclick="shareMap()">
+              ↗ &nbsp; Share Your MAP
+            </button>
+            <button class="btn-save-secondary" onclick="goTo('screen-start')">
+              ↺ &nbsp; Start Over
+            </button>
+          </div>
+        </div>
 
       </div>
     </div>
   </div>
+
+  <!-- Share toast -->
+  <div class="share-toast" id="share-toast">✓ Link copied to clipboard</div>
 
   <!-- Transition chime — soft ding on forward navigation -->
   <audio id="audio-chime" preload="auto">
@@ -2392,12 +2621,30 @@
 
   // ── MAP REVEAL BUILDER ────────────────────────────────────
 
-  function buildMapReveal() {
-    var r1 = document.getElementById('answer-q1').value.trim() || 'build something that matters';
-    var p1 = document.getElementById('answer-purpose-q1').value.trim() || 'I want to create a life on my own terms';
-    var m1 = document.getElementById('answer-map-q1').value.trim() || 'Skills, Relationships, Finance, Health';
+  // ── SHARE MAP ─────────────────────────────────────────────
+  function shareMap() {
+    var url = window.location.href;
+    if (navigator.share) {
+      navigator.share({ title: 'My Tony Robbins MAP', text: 'I just built my Massive Action Plan.', url: url }).catch(function(){});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(function() {
+        var toast = document.getElementById('share-toast');
+        if (toast) {
+          toast.classList.add('show');
+          setTimeout(function() { toast.classList.remove('show'); }, 2800);
+        }
+      }).catch(function(){});
+    }
+  }
 
-    // Populate answers drawer
+  // ── MAP REVEAL BUILDER ────────────────────────────────────
+
+  function buildMapReveal() {
+    var r1 = document.getElementById('answer-q1').value.trim() || 'build something that changes everything';
+    var p1 = document.getElementById('answer-purpose-q1').value.trim() || 'I want to create a life I am proud of';
+    var m1 = document.getElementById('answer-map-q1').value.trim() || 'Skills, Relationships, Finance, Health, Mindset';
+
+    // ── Populate answers drawer
     var dr1 = document.getElementById('drawer-r1');
     var dp1 = document.getElementById('drawer-p1');
     var dm1 = document.getElementById('drawer-m1');
@@ -2405,53 +2652,121 @@
     if (dp1) dp1.textContent = p1;
     if (dm1) dm1.textContent = m1;
 
-    // Section A — Result Reframed
+    // ── RPM Snapshot
+    var sr = document.getElementById('snap-r');
+    var sp = document.getElementById('snap-p');
+    var sm = document.getElementById('snap-m');
+    if (sr) sr.textContent = r1;
+    if (sp) sp.textContent = p1.length > 90 ? p1.substring(0,90) + '...' : p1;
+    if (sm) sm.textContent = m1.length > 80 ? m1.substring(0,80) + '...' : m1;
+
+    // ── Section A — Your Result, Reframed (~150 words)
     var cardA = document.getElementById('map-card-a-body');
-    if (cardA) cardA.innerHTML = "What you wrote points at something real. But let's sharpen it. <em>" + r1 + "</em> — that's the direction. Now here's the result: <strong>you will have achieved this when you can point to something specific, measurable, and undeniable.</strong> Your brain doesn't respond to wishes. It responds to targets. Hold this result like a destination in your GPS — clear, locked in, non-negotiable.";
+    if (cardA) cardA.innerHTML =
+      "<p>What you wrote is the raw material. Here is what I want you to hold: <em>" + r1 + "</em>. That is not a wish. That is a target. And starting right now, your brain is going to start treating it exactly that way.</p>" +
+      "<div class='map-card-callout'>You will know you have achieved this result when you can point to something <strong>specific, measurable, and undeniable</strong> — a number, a date, a milestone, a moment. If you cannot describe it that precisely yet, that is your first assignment.</div>" +
+      "<p>Most people spend their entire lives circling what they want without ever committing to it at this level. You just did something different. <strong>You named it.</strong> The RAS — your brain's reticular activating system — is now filtering your entire world through this target. Every conversation, every opportunity, every resource that is relevant to this result will start showing up. Not because the world changed. Because <em>you</em> changed what you are looking for.</p>" +
+      "<p>Hold this result like a GPS coordinate. Every decision this week either moves you toward it or away from it. There is no neutral.</p>";
 
-    // Section B — Why This Will Work
+    // ── Section B — Why This Will Work (~180 words)
     var cardB = document.getElementById('map-card-b-body');
-    if (cardB) cardB.innerHTML = "Here's what I notice about your why: <em>" + p1 + "</em>. <strong>There's something real in there — don't lose it.</strong> Purpose is the engine that runs when willpower runs out. And willpower always runs out. Most people fail not because they lack a plan — they fail because their why isn't strong enough to survive a hard Tuesday at 11pm when nothing is working. Your job between now and then is to make that why <em>unignorable</em>. Write it on a card. Put it where you'll see it. Read it out loud. Make it a physical object in your life, not just a thought.";
+    if (cardB) cardB.innerHTML =
+      "<p>You said: <em>" + p1 + "</em></p>" +
+      "<p>Here is what I want you to understand about what you just wrote. <strong>Purpose is not decoration — it is infrastructure.</strong> It is what the entire plan is built on. And the reason most people never achieve what they say they want is not because they lacked a strategy. It is because their why was not strong enough to survive the moment everything went sideways.</p>" +
+      "<div class='map-card-callout gold'>Willpower has a ceiling. Purpose does not. When your reason is big enough — when it is tied to something that genuinely matters — you stop asking whether you feel like doing the work. You just do it.</div>" +
+      "<p>Your purpose, as you stated it, has real energy in it. Now your job is to make it <em>unavoidable</em>. Write it on a card. Put it on your mirror. Set it as your phone wallpaper. Read it out loud every single morning before you check a single notification. Sixty seconds. Every day. This is not optional. This is the foundation everything else rests on.</p>" +
+      "<p><strong>A purpose you have to search for is not strong enough yet.</strong> A purpose that finds you — that interrupts you mid-day and reminds you why you started — that is the one.</p>";
 
-    // Section C — Non-Negotiables
+    // ── Section C — Non-Negotiables (~250 words across 7 items)
     var list = document.getElementById('map-nonneg-list');
     if (list) {
       var nonneg = [
-        { n:'01', text: '<strong>Block 90 minutes</strong> this week — non-negotiable, in your calendar now — to work on nothing but your top action category from your MAP.' },
-        { n:'02', text: '<strong>Tell one person</strong> what you just committed to. Not a text. A real conversation. Shared commitment creates accountability that self-commitment never can.' },
-        { n:'03', text: '<strong>Identify the single biggest obstacle</strong> between you and your result — and write down one specific action you will take to begin removing it before Friday.' },
-        { n:'04', text: '<strong>Read your purpose statement out loud</strong> every morning this week — before you check your phone, before you open email. 60 seconds. Every day. Non-negotiable.' },
-        { n:'05', text: '<strong>Schedule your 7-day check-in</strong> — put a recurring reminder in your calendar for next week to assess: Did I do what I said? What needs to change?' },
+        {
+          n: '01',
+          text: '<strong>Declare your result out loud today</strong> — not in your head, out loud — and write the date by which you will have achieved it. Put it somewhere you will see it every morning.',
+          sub: 'Why this matters: Your brain responds differently to spoken and written commitments than it does to thoughts. The act of declaration creates a different level of psychological ownership.'
+        },
+        {
+          n: '02',
+          text: '<strong>Open your calendar right now</strong> and block 90 uninterrupted minutes on your first available morning this week. Label it: MAP WORK. Nothing else goes in that slot.',
+          sub: 'Why this matters: A plan that does not have time blocked for it is not a plan — it is a wish. This single action is the difference between people who execute and people who intend to.'
+        },
+        {
+          n: '03',
+          text: '<strong>Call or sit down with one person today</strong> and tell them specifically what you are committed to achieving and by when. Ask them to hold you accountable.',
+          sub: 'Why this matters: Shared commitment multiplies follow-through. Research consistently shows that people who verbalize goals to someone else are significantly more likely to achieve them.'
+        },
+        {
+          n: '04',
+          text: '<strong>Write down the single biggest obstacle</strong> between you and your result — not a list, the ONE biggest thing — and identify one specific action you will take before Friday to begin removing it.',
+          sub: 'Why this matters: An obstacle you name becomes a problem to solve. An obstacle you avoid becomes the reason you stop.'
+        },
+        {
+          n: '05',
+          text: '<strong>Read your purpose statement out loud every morning this week</strong> — before your phone, before email, before anything else. 60 seconds. Every day. Non-negotiable.',
+          sub: 'Why this matters: You are what you rehearse. Most people rehearse distraction first thing in the morning. You are going to rehearse your why.'
+        },
+        {
+          n: '06',
+          text: '<strong>Identify who can help you get there faster</strong> — not how you will do it alone, but who has already figured out what you are trying to figure out. Reach out to one of them this week.',
+          sub: 'Why this matters: The fastest path to any result runs through someone who has already walked it. Stop trying to invent from scratch what someone else has already solved.'
+        },
+        {
+          n: '07',
+          text: '<strong>Schedule your 7-day review</strong> right now — a 20-minute appointment with yourself exactly one week from today to answer three questions: What did I do? What worked? What do I change?',
+          sub: 'Why this matters: Progress without review is just activity. The review is where the learning happens — and the learning is what separates people who keep improving from people who keep repeating.'
+        }
       ];
       list.innerHTML = nonneg.map(function(item) {
-        return '<li class="nonneg-item"><span class="nonneg-number">' + item.n + '</span><span class="nonneg-text">' + item.text + '</span></li>';
+        return '<li class="nonneg-item">' +
+          '<span class="nonneg-number">' + item.n + '</span>' +
+          '<span class="nonneg-text">' + item.text +
+          '<div class="nonneg-sub">' + item.sub + '</div>' +
+          '</span></li>';
       }).join('');
     }
 
-    // Section D — Pattern Interrupt
+    // ── Section D — Pattern Interrupt (~200 words)
     var cardD = document.getElementById('map-card-d-body');
-    if (cardD) cardD.innerHTML = "Here's what I want to say to you directly, and I want you to hear this: <strong>the fact that you haven't done this yet is not about capability.</strong> It never is. It's about identity. Somewhere, at some level, you've been operating as someone for whom this result is a dream — not a decision. <em>That changes today.</em> Every day you don't move is a vote for the old story. Every action you take — no matter how small — is a vote for the new one. The question isn't whether you can achieve this. The question is: <strong>who do you decide to be starting right now?</strong>";
+    if (cardD) cardD.innerHTML =
+      "<p>I want to say something to you that most coaches will not say. <strong>The thing standing between you and what you want is not information.</strong> You have enough information. It is not resources — you can find resources. It is not even time. It is something deeper than all of that.</p>" +
+      "<p>It is the story you have been telling yourself about who you are and what is possible for you. Somewhere — maybe quietly, maybe loudly — a part of you has been treating this result as something that happens to <em>other</em> people. People with different circumstances. Different advantages. Different luck.</p>" +
+      "<div class='map-card-callout'>That story is not the truth. It is a habit. And habits can be broken in an instant — not over time, not gradually — in a single moment of decision. This is that moment.</div>" +
+      "<p>The people who achieve extraordinary results are not smarter than you. They are not more talented. <strong>They made a decision at some point that they were no longer available for the old story.</strong> They decided that the cost of staying the same was finally — finally — greater than the cost of changing.</p>" +
+      "<p>You have done the work today to build a MAP. Now the question is not whether this plan will work. <em>The question is whether you will.</em> Everything you need is in this document. The only variable left is your commitment. <strong>Who do you decide to be — starting right now?</strong></p>";
 
-    // Section E — Commitment Declaration
+    // ── Section E — Commitment Declaration (~200 words)
     var declaration = document.getElementById('map-declaration');
     if (declaration) {
-      declaration.innerHTML = "I am committed to <em>" + r1 + "</em> — not someday, not when conditions are perfect, but <em>now.</em><br/><br/>My purpose is clear. My plan is built. And I know that <em>massive action is the cure-all.</em><br/><br/><strong>This is my MAP. This is my moment.</strong>";
+      var today = new Date();
+      var dateStr = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      declaration.innerHTML =
+        "<div style='font-size:0.7em; letter-spacing:0.2em; color:rgba(255,255,255,0.35); text-transform:uppercase; margin-bottom:16px;'>" + dateStr + "</div>" +
+        "<p>I declare that I am fully committed to <em>" + r1 + "</em>.</p>" +
+        "<p>I am not pursuing this because it sounds good or because someone else expects it of me. I am pursuing this because <em>" + p1.toLowerCase().replace(/\.$/,'') + "</em> — and that reason is strong enough to carry me through every obstacle, every setback, and every moment of doubt that lies ahead.</p>" +
+        "<p>I have built my Massive Action Plan. I know my first seven non-negotiable actions. I know who I need to involve. I know what is in the way — and I am committed to removing it.</p>" +
+        "<p><strong>I do not need perfect conditions. I do not need permission. I do not need to feel ready.</strong></p>" +
+        "<p><em>Massive action is the cure-all. And I am ready to move.</em></p>" +
+        "<div style='margin-top:24px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.1);'>" +
+        "<div style='font-size:0.7em; letter-spacing:0.15em; color:rgba(255,255,255,0.25); text-transform:uppercase; margin-bottom:8px;'>Signed</div>" +
+        "<div style='font-size:1.1em; font-weight:700; color:rgba(255,255,255,0.6); font-style:italic; letter-spacing:0.05em;'>_______________________________</div>" +
+        "</div>";
     }
 
-    // Stagger card reveals
-    var cards = ['map-card-a','map-card-b','map-card-c','map-card-d','map-card-e'];
-    cards.forEach(function(id, i) {
+    // ── Stagger reveal all cards + snapshot + save block
+    var allReveal = ['map-snapshot','map-card-a','map-card-b','map-card-c','map-card-d','map-card-e','map-save-block'];
+    allReveal.forEach(function(id) {
       var el = document.getElementById(id);
       if (el) el.classList.remove('revealed');
     });
     setTimeout(function() {
-      cards.forEach(function(id, i) {
+      allReveal.forEach(function(id, i) {
         setTimeout(function() {
           var el = document.getElementById(id);
           if (el) el.classList.add('revealed');
-        }, i * 180);
+        }, i * 200);
       });
-    }, 100);
+    }, 120);
   }
 
   // Screen order for determining slide direction
