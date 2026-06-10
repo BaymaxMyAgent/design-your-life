@@ -37,11 +37,44 @@
       display: flex; flex-direction: column;
       justify-content: center; align-items: center;
       opacity: 0; pointer-events: none;
-      transition: opacity 0.6s ease;
       background: var(--navy);
+      /* Default resting state — off to the right, invisible */
+      transform: translateX(40px);
+      transition: opacity 0.42s ease, transform 0.42s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform, opacity;
     }
 
-    .screen.active { opacity: 1; pointer-events: all; }
+    .screen.active {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(0);
+    }
+
+    /* Slide-out to the left when leaving forward */
+    .screen.exit-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      pointer-events: none;
+    }
+
+    /* Slide-out to the right when going back */
+    .screen.exit-right {
+      opacity: 0;
+      transform: translateX(40px);
+      pointer-events: none;
+    }
+
+    /* Slide-in from the right (forward navigation) */
+    .screen.enter-right {
+      opacity: 0;
+      transform: translateX(40px);
+    }
+
+    /* Slide-in from the left (back navigation) */
+    .screen.enter-left {
+      opacity: 0;
+      transform: translateX(-40px);
+    }
 
     /* ── START PAGE ── */
     #screen-start { text-align: center; padding: 0 20px; justify-content: center; }
@@ -104,6 +137,12 @@
     .btn-start:hover {
       transform: scale(1.04);
       box-shadow: 0 0 28px var(--glow), 0 0 60px rgba(0,234,255,0.35);
+    }
+
+    /* ── TACTILE PRESS STATE — all interactive buttons ── */
+    button:active, .btn-start:active {
+      transform: scale(0.96) !important;
+      transition: transform 0.08s ease !important;
     }
 
     /* ── VIDEO SCREEN ── */
@@ -604,16 +643,42 @@
       font-size: 1em; color: var(--white);
       line-height: 1.6; resize: vertical;
       font-family: inherit;
-      transition: border-color 0.2s, background 0.2s;
+      transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
     }
 
     .q-input:focus {
       outline: none;
       border-color: var(--cyan);
       background: rgba(94,186,221,0.07);
+      box-shadow: 0 0 0 3px rgba(94,186,221,0.12),
+                  0 0 20px rgba(94,186,221,0.08);
+    }
+
+    .q-input.has-content {
+      border-color: rgba(94,186,221,0.6);
+      box-shadow: 0 0 0 2px rgba(94,186,221,0.1);
     }
 
     .q-input::placeholder { color: rgba(255,255,255,0.25); }
+
+    /* Next button — dimmed until user has written something */
+    .btn-next {
+      padding: 12px 32px;
+      font-size: 1em; font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--navy); background: var(--cyan);
+      border: none; border-radius: 50px; cursor: pointer;
+      transition: background 0.2s, transform 0.15s, opacity 0.3s;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .btn-next.ready {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .btn-next.ready:hover { background: var(--glow); transform: scale(1.03); }
 
     .q-footer {
       display: flex; align-items: center;
@@ -621,16 +686,7 @@
       margin-top: 24px;
     }
 
-    .btn-next {
-      padding: 12px 32px;
-      font-size: 1em; font-weight: 700;
-      letter-spacing: 0.05em;
-      color: var(--navy); background: var(--cyan);
-      border: none; border-radius: 50px; cursor: pointer;
-      transition: background 0.2s, transform 0.15s;
-    }
 
-    .btn-next:hover { background: var(--glow); transform: scale(1.03); }
 
     .q-progress {
       font-size: 0.75em; color: rgba(255,255,255,0.35);
@@ -661,6 +717,44 @@
       animation: none;
     }
 
+    /* ── STAGGERED ENTRANCE ANIMATIONS ── */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .q-phase-label,
+    .audio-indicator,
+    .q-handoff,
+    .q-text,
+    .q-subtext,
+    .q-input,
+    .q-footer {
+      opacity: 0;
+      animation: fadeSlideUp 0.45s ease forwards;
+    }
+
+    /* Stagger delays — each element waits for the previous */
+    .q-phase-label   { animation-delay: 0.05s; }
+    .audio-indicator { animation-delay: 0.12s; }
+    .q-handoff       { animation-delay: 0.22s; }
+    .q-text          { animation-delay: 0.32s; }
+    .q-subtext       { animation-delay: 0.44s; }
+    .q-input         { animation-delay: 0.56s; }
+    .q-footer        { animation-delay: 0.66s; }
+
+    /* Reset — when screen goes inactive, strip animation so it re-fires on re-entry */
+    .screen:not(.active) .q-phase-label,
+    .screen:not(.active) .audio-indicator,
+    .screen:not(.active) .q-handoff,
+    .screen:not(.active) .q-text,
+    .screen:not(.active) .q-subtext,
+    .screen:not(.active) .q-input,
+    .screen:not(.active) .q-footer {
+      opacity: 0;
+      animation: none;
+    }
+
     .q-handoff {
       font-size: clamp(1em, 2.8vw, 1.2em);
       font-weight: 600;
@@ -683,17 +777,64 @@
       50% { opacity: 0.4; transform: scale(0.7); }
     }
 
-    .progress-bar-track {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 3px;
-      background: rgba(255,255,255,0.08); z-index: 100;
+    /* ── SEGMENTED PHASE PROGRESS ── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 200;
+      padding: 10px 20px 8px;
+      background: rgba(0,15,35,0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      flex-direction: column;
+      gap: 6px;
     }
 
-    .progress-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--cyan), var(--gold));
-      transition: width 0.5s ease;
+    #progress-bar.bar-visible { display: flex; }
+
+    .prog-labels {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 2px;
     }
+
+    .prog-label {
+      font-size: 0.58em;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      transition: color 0.4s;
+    }
+
+    .prog-label.active-phase { color: var(--gold); }
+    .prog-label.done-phase   { color: var(--cyan); }
+
+    .prog-segments {
+      display: flex;
+      gap: 4px;
+      height: 3px;
+    }
+
+    .prog-seg {
+      flex: 1;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.1);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .prog-seg-fill {
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 0%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--gold));
+      transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .prog-seg.done .prog-seg-fill   { width: 100%; background: var(--cyan); }
+    .prog-seg.active .prog-seg-fill { background: linear-gradient(90deg, var(--cyan), var(--gold)); }
 
     @media (max-width: 480px) {
       .question-screen { padding: 32px 18px; }
@@ -707,8 +848,17 @@
 </head>
 <body>
 
-<div class="progress-bar-track" id="progress-bar" style="display:none;">
-  <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+<div id="progress-bar">
+  <div class="prog-labels">
+    <span class="prog-label" id="prog-label-r">Results</span>
+    <span class="prog-label" id="prog-label-p">Purpose</span>
+    <span class="prog-label" id="prog-label-m">Massive Action</span>
+  </div>
+  <div class="prog-segments">
+    <div class="prog-seg" id="prog-seg-r"><div class="prog-seg-fill" id="prog-fill-r"></div></div>
+    <div class="prog-seg" id="prog-seg-p"><div class="prog-seg-fill" id="prog-fill-p"></div></div>
+    <div class="prog-seg" id="prog-seg-m"><div class="prog-seg-fill" id="prog-fill-m"></div></div>
+  </div>
 </div>
 
 <div id="app">
@@ -874,7 +1024,7 @@
   <!-- SCREEN 4 — QUESTION 1 -->
   <div class="screen" id="screen-q1">
     <div class="question-screen">
-      <div class="q-phase">RESULTS — Question 1 of 2</div>
+      <div class="q-phase q-phase-label">RESULTS — Question 1 of 2</div>
       <div class="audio-indicator" id="q1-audio-bar">
         <div class="audio-dot"></div>
         TONY ROBBINS AUDIO PLAYING
@@ -888,7 +1038,7 @@
       </div>
       <textarea class="q-input" id="answer-q1" placeholder="Start writing your answer here..."></textarea>
       <div class="q-footer">
-        <button class="btn-back" onclick="goTo('screen-results-open')">&larr; Back</button>
+        <button class="btn-back" onclick="goTo('screen-results-open', true)">&larr; Back</button>
         <div class="q-progress">1 / 2</div>
         <button class="btn-next" onclick="goTo('screen-q2')">Next &rarr;</button>
       </div>
@@ -903,7 +1053,7 @@
   <!-- SCREEN 5 — QUESTION 2 -->
   <div class="screen" id="screen-q2">
     <div class="question-screen">
-      <div class="q-phase">PURPOSE — Question 2 of 2</div>
+      <div class="q-phase q-phase-label">PURPOSE — Question 2 of 2</div>
       <div class="audio-indicator">
         <div class="audio-dot"></div>
         TONY ROBBINS AUDIO PLAYING
@@ -916,7 +1066,7 @@
       </div>
       <textarea class="q-input" id="answer-q2" placeholder="Start writing your answer here..."></textarea>
       <div class="q-footer">
-        <button class="btn-back" onclick="goTo('screen-q1')">&larr; Back</button>
+        <button class="btn-back" onclick="goTo('screen-q1', true)">&larr; Back</button>
         <div class="q-progress">2 / 2</div>
         <button class="btn-next" onclick="goTo('screen-complete')">Complete &rarr;</button>
       </div>
@@ -936,6 +1086,11 @@
       <button class="btn-start" onclick="goTo('screen-start')">Start Over</button>
     </div>
   </div>
+
+  <!-- Transition chime — soft ding on forward navigation -->
+  <audio id="audio-chime" preload="auto">
+    <source src="chime.mp3" type="audio/mpeg" />
+  </audio>
 
 </div>
 
@@ -1045,35 +1200,151 @@
     playAudio('audio-q1', 'q1-audio-bar');
   }
 
-  function goTo(id) {
+  // Delayed version — waits 1.1s so the page has a moment to breathe
+  function playQ1AudioDelayed() {
+    setTimeout(function() {
+      if (currentScreen === 'screen-q1') {
+        playAudio('audio-q1', 'q1-audio-bar');
+      }
+    }, 1100);
+  }
+
+  // ── Textarea micro-interactions ──
+  function initTextareaListeners() {
+    var inputs = document.querySelectorAll('.q-input');
+    inputs.forEach(function(input) {
+      var footer  = input.closest('.question-screen').querySelector('.q-footer');
+      var nextBtn = footer ? footer.querySelector('.btn-next') : null;
+
+      input.addEventListener('input', function() {
+        var hasText = input.value.trim().length > 0;
+        input.classList.toggle('has-content', hasText);
+        if (nextBtn) nextBtn.classList.toggle('ready', hasText);
+      });
+
+      // Also handle back button — always available
+      var backBtn = footer ? footer.querySelector('.btn-back') : null;
+      if (backBtn) backBtn.style.opacity = '1';
+    });
+  }
+
+  // Run once DOM is ready
+  document.addEventListener('DOMContentLoaded', function() {
+    initTextareaListeners();
+  });
+
+  // Screen order for determining slide direction
+  var screenOrder = [
+    'screen-start',
+    'screen-video',
+    'screen-results-open',
+    'screen-q1',
+    'screen-q2',
+    'screen-complete'
+  ];
+
+  // Progress config — which screens show the bar and how to fill it
+  var progressConfig = {
+    'screen-results-open': { show: true,  r: 5,   p: 0,   m: 0,   activePhase: 'r' },
+    'screen-q1':           { show: true,  r: 50,  p: 0,   m: 0,   activePhase: 'r' },
+    'screen-q2':           { show: true,  r: 100, p: 20,  m: 0,   activePhase: 'p' },
+    'screen-complete':     { show: true,  r: 100, p: 100, m: 100, activePhase: 'm' },
+  };
+
+  function playChime() {
+    var chime = document.getElementById('audio-chime');
+    if (chime) {
+      chime.currentTime = 0;
+      chime.volume = 0.35;
+      chime.play().catch(function(){});
+    }
+  }
+
+  function triggerHaptic() {
+    if (navigator.vibrate) navigator.vibrate(18);
+  }
+
+  function updateProgress(id) {
+    var bar = document.getElementById('progress-bar');
+    var cfg = progressConfig[id];
+    if (!cfg || !cfg.show) {
+      if (bar) bar.classList.remove('bar-visible');
+      return;
+    }
+    if (bar) bar.classList.add('bar-visible');
+
+    // Fill segments
+    var segs = { r: cfg.r, p: cfg.p, m: cfg.m };
+    Object.keys(segs).forEach(function(phase) {
+      var seg  = document.getElementById('prog-seg-' + phase);
+      var fill = document.getElementById('prog-fill-' + phase);
+      var lbl  = document.getElementById('prog-label-' + phase);
+      if (!seg || !fill || !lbl) return;
+      var pct = segs[phase];
+      fill.style.width = pct + '%';
+      seg.classList.remove('done', 'active');
+      lbl.classList.remove('active-phase', 'done-phase');
+      if (pct >= 100) {
+        seg.classList.add('done');
+        lbl.classList.add('done-phase');
+      } else if (pct > 0 || phase === cfg.activePhase) {
+        seg.classList.add('active');
+        lbl.classList.add('active-phase');
+      }
+    });
+  }
+
+  function goTo(id, isBack) {
+    if (id === currentScreen) return;
+
     // Stop any playing audio when navigating away
     stopActiveAudio();
-    // Hide the fixed video UI bar unless we are going to the video screen
     if (id !== 'screen-video') hideVideoUIBar();
 
-    var old = document.getElementById(currentScreen);
-    if (old) old.classList.remove('active');
-    var next = document.getElementById(id);
-    if (next) next.classList.add('active');
-    currentScreen = id;
+    // ── Determine slide direction ──
+    var oldIdx  = screenOrder.indexOf(currentScreen);
+    var newIdx  = screenOrder.indexOf(id);
+    var forward = isBack ? false : (newIdx >= oldIdx);
 
-    // Progress bar
-    var bar  = document.getElementById('progress-bar');
-    var fill = document.getElementById('progress-fill');
-    var showProgress = (id === 'screen-q1' || id === 'screen-q2' || id === 'screen-complete');
-    bar.style.display = showProgress ? 'block' : 'none';
-    if (fill && progressMap[id] !== undefined) {
-      fill.style.width = progressMap[id] + '%';
+    // ── Play chime + haptic on forward navigation (not back, not video) ──
+    if (forward && id !== 'screen-video' && id !== 'screen-start') {
+      playChime();
+      triggerHaptic();
     }
 
-    // Screen-specific logic
+    // ── Animate old screen out ──
+    var oldEl = document.getElementById(currentScreen);
+    if (oldEl) {
+      oldEl.classList.remove('active');
+      oldEl.classList.add(forward ? 'exit-left' : 'exit-right');
+      // Clean up exit class after transition
+      setTimeout(function() {
+        oldEl.classList.remove('exit-left', 'exit-right');
+      }, 450);
+    }
+
+    // ── Prep new screen enter position ──
+    var nextEl = document.getElementById(id);
+    if (nextEl) {
+      nextEl.classList.remove('exit-left', 'exit-right', 'active');
+      nextEl.classList.add(forward ? 'enter-right' : 'enter-left');
+      // Force reflow so the enter class is applied before transition
+      void nextEl.offsetWidth;
+      nextEl.classList.remove('enter-right', 'enter-left');
+      nextEl.classList.add('active');
+    }
+
+    currentScreen = id;
+
+    // ── Update progress bar ──
+    updateProgress(id);
+
+    // ── Screen-specific logic ──
     if (id === 'screen-video') {
       initVimeoPlayer();
       hideEndOverlay();
-      // Show the fixed UI bar when on the video screen
       var uiBar = document.getElementById('video-ui-bar');
       if (uiBar) { uiBar.classList.add('visible'); uiBar.classList.remove('hidden'); }
-      // On mobile, re-show unmute button when returning to video screen
       if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768) {
         var unmuteBtn = document.getElementById('btn-unmute');
         if (unmuteBtn) unmuteBtn.classList.remove('hidden');
@@ -1083,7 +1354,7 @@
       playResultsOpenAudio();
     } else if (id === 'screen-q1') {
       pauseVimeo();
-      playQ1Audio();
+      playQ1AudioDelayed();
     } else {
       pauseVimeo();
       hideEndOverlay();
