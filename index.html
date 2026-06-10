@@ -120,6 +120,153 @@
       border: 0;
     }
 
+
+    /* ── VIDEO ANIMATED BORDER ── */
+    #video-border-frame {
+      position: absolute; inset: 0;
+      z-index: 10;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* Rotating conic gradient border — sits as an inset ring */
+    #video-border-frame::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 0;
+      background: conic-gradient(
+        from var(--border-angle, 0deg),
+        var(--gold)      0%,
+        var(--cyan)      18%,
+        transparent      28%,
+        transparent      50%,
+        var(--cyan)      60%,
+        var(--gold)      75%,
+        transparent      85%,
+        transparent      100%
+      );
+      animation: borderSpin 4s linear infinite;
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      padding: 3px;
+      opacity: 0.75;
+    }
+
+    /* Inner soft glow edge — adds depth without harshness */
+    #video-border-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      box-shadow:
+        inset 0 0 22px rgba(94,186,221,0.18),
+        inset 0 0 5px  rgba(240,197,93,0.12);
+      pointer-events: none;
+    }
+
+    @keyframes borderSpin {
+      from { --border-angle: 0deg; }
+      to   { --border-angle: 360deg; }
+    }
+
+    @property --border-angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+
+    /* Corner accent marks — reinforce the frame at each corner */
+    .video-corner {
+      position: absolute;
+      width: 28px; height: 28px;
+      z-index: 11;
+      pointer-events: none;
+    }
+
+    .video-corner::before,
+    .video-corner::after {
+      content: '';
+      position: absolute;
+      background: var(--gold);
+      border-radius: 1px;
+      opacity: 0.9;
+    }
+
+    .video-corner--tl { top: 12px; left: 12px; }
+    .video-corner--tr { top: 12px; right: 12px; transform: scaleX(-1); }
+    .video-corner--bl { bottom: 12px; left: 12px; transform: scaleY(-1); }
+    .video-corner--br { bottom: 12px; right: 12px; transform: scale(-1); }
+
+    .video-corner::before { width: 100%; height: 2.5px; top: 0; left: 0; }
+    .video-corner::after  { width: 2.5px; height: 100%; top: 0; left: 0; }
+
+    /* ── VIDEO BOTTOM BAR ── */
+    #video-bottom-bar {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      z-index: 12;
+      pointer-events: none;
+      padding: 32px 24px 20px;
+      background: linear-gradient(
+        to top,
+        rgba(0,10,25,0.88) 0%,
+        rgba(0,15,35,0.65) 55%,
+        transparent        100%
+      );
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .vbb-lockup {
+      display: flex; align-items: center; gap: 12px;
+    }
+
+    .vbb-line {
+      width: 28px; height: 1.5px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+      opacity: 0.6;
+    }
+
+    .vbb-line-r {
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    .vbb-name {
+      font-size: clamp(0.6em, 2vw, 0.75em);
+      font-weight: 700;
+      letter-spacing: 0.32em;
+      color: var(--gold);
+      opacity: 0.85;
+      text-transform: uppercase;
+    }
+
+    .vbb-title {
+      font-size: clamp(0.55em, 1.8vw, 0.68em);
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      color: rgba(255,255,255,0.45);
+      text-transform: uppercase;
+    }
+
+    /* Hide bottom bar when end overlay is visible */
+    #video-end-overlay.visible ~ #video-bottom-bar,
+    #screen-video:has(#video-end-overlay.visible) #video-bottom-bar {
+      opacity: 0;
+    }
+
+    @media (max-width: 480px) {
+      .video-corner { width: 22px; height: 22px; }
+      .video-corner--tl { top: 10px; left: 10px; }
+      .video-corner--tr { top: 10px; right: 10px; }
+      .video-corner--bl { bottom: 10px; left: 10px; }
+      .video-corner--br { bottom: 10px; right: 10px; }
+    }
+
     /* ── VIDEO UNMUTE BUTTON ── */
     #btn-unmute {
       position: absolute;
@@ -165,7 +312,7 @@
     /* ── VIDEO SKIP BUTTON ── */
     #btn-skip-video {
       position: absolute;
-      bottom: 24px; right: 28px;
+      bottom: 60px; right: 28px;
       z-index: 20;
       padding: 9px 22px;
       background: transparent;
@@ -617,6 +764,25 @@
 
     <div id="vimeo-container">
       <div id="vimeo-player-placeholder"></div>
+    </div>
+
+    <!-- Animated border frame -->
+    <div id="video-border-frame"></div>
+
+    <!-- Corner accents -->
+    <div class="video-corner video-corner--tl"></div>
+    <div class="video-corner video-corner--tr"></div>
+    <div class="video-corner video-corner--bl"></div>
+    <div class="video-corner video-corner--br"></div>
+
+    <!-- Bottom identity bar -->
+    <div id="video-bottom-bar">
+      <div class="vbb-lockup">
+        <div class="vbb-line"></div>
+        <div class="vbb-name">Tony Robbins</div>
+        <div class="vbb-line vbb-line-r"></div>
+      </div>
+      <div class="vbb-title">Design Your Life &nbsp;·&nbsp; RPM Experience</div>
     </div>
 
     <!-- Unmute button — top center, dismisses itself on click -->
