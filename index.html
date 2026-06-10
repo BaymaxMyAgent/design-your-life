@@ -1555,6 +1555,228 @@
       transform: translateX(-50%) translateY(0);
     }
 
+
+    /* ── RPM ORIENTATION SCREEN ── */
+    #screen-rpm-intro {
+      overflow-y: auto;
+      justify-content: flex-start;
+      align-items: stretch;
+      padding: 0;
+    }
+
+    .rpm-intro-inner {
+      max-width: 680px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 48px 28px 56px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .rpm-intro-eyebrow {
+      font-size: 0.62em;
+      letter-spacing: 0.35em;
+      font-weight: 700;
+      color: var(--cyan);
+      opacity: 0.65;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .rpm-intro-headline {
+      font-size: clamp(1.6em, 5vw, 2.2em);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.2;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .rpm-intro-headline span { color: var(--gold); }
+
+    .rpm-intro-subhead {
+      font-size: clamp(0.88em, 2.2vw, 1em);
+      color: rgba(255,255,255,0.45);
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    /* Audio bar */
+    .rpm-intro-audio-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 32px;
+      font-size: 0.68em;
+      letter-spacing: 0.18em;
+      font-weight: 600;
+      color: var(--gold);
+      opacity: 0.8;
+      text-transform: uppercase;
+    }
+
+    .rpm-intro-audio-bar.paused { opacity: 0.3; }
+
+    .rpm-intro-waves {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 16px;
+    }
+
+    .rpm-intro-waves span {
+      display: block;
+      width: 3px;
+      background: var(--gold);
+      border-radius: 2px;
+      animation: wave 1.2s ease-in-out infinite;
+    }
+
+    .rpm-intro-waves span:nth-child(1) { height: 6px;  animation-delay: 0s; }
+    .rpm-intro-waves span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
+    .rpm-intro-waves span:nth-child(3) { height: 9px;  animation-delay: 0.3s; }
+    .rpm-intro-waves span:nth-child(4) { height: 14px; animation-delay: 0.1s; }
+    .rpm-intro-waves span:nth-child(5) { height: 7px;  animation-delay: 0.25s; }
+
+    .rpm-intro-audio-bar.paused .rpm-intro-waves span {
+      animation: none;
+      height: 3px;
+      opacity: 0.4;
+    }
+
+    /* RPM three pillars */
+    .rpm-pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .rpm-pillar {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 18px 20px;
+    }
+
+    .rpm-pillar-letter {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3em;
+      font-weight: 900;
+      flex-shrink: 0;
+      letter-spacing: 0.02em;
+    }
+
+    .rpm-pillar-letter.letter-r {
+      background: rgba(94,186,221,0.15);
+      color: var(--cyan);
+    }
+
+    .rpm-pillar-letter.letter-p {
+      background: rgba(240,197,93,0.15);
+      color: var(--gold);
+    }
+
+    .rpm-pillar-letter.letter-m {
+      background: rgba(0,234,255,0.12);
+      color: #00eaff;
+    }
+
+    .rpm-pillar-content { flex: 1; }
+
+    .rpm-pillar-title {
+      font-size: clamp(0.95em, 2.5vw, 1.05em);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .rpm-pillar-desc {
+      font-size: clamp(0.82em, 2vw, 0.9em);
+      color: rgba(255,255,255,0.45);
+      line-height: 1.55;
+    }
+
+    /* What to expect */
+    .rpm-expect-box {
+      background: linear-gradient(135deg, rgba(0,31,63,0.6), rgba(0,10,28,0.8));
+      border: 1px solid rgba(94,186,221,0.15);
+      border-radius: 14px;
+      padding: 22px 22px;
+      margin-bottom: 28px;
+    }
+
+    .rpm-expect-title {
+      font-size: 0.65em;
+      letter-spacing: 0.25em;
+      font-weight: 700;
+      color: var(--cyan);
+      opacity: 0.65;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .rpm-expect-list {
+      list-style: none;
+      padding: 0; margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .rpm-expect-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: clamp(0.85em, 2.2vw, 0.92em);
+      color: rgba(255,255,255,0.65);
+      line-height: 1.55;
+    }
+
+    .rpm-expect-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+      margin-top: 6px;
+      opacity: 0.7;
+    }
+
+    .rpm-intro-disclaimer {
+      font-size: 0.78em;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 28px;
+      font-style: italic;
+    }
+
+    .btn-rpm-begin {
+      width: 100%;
+      padding: 17px 0;
+      font-size: clamp(0.95em, 2.5vw, 1.05em);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--navy);
+      background: linear-gradient(135deg, var(--glow), var(--cyan));
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 0 24px rgba(0,234,255,0.25), 0 0 60px rgba(0,234,255,0.1);
+      transition: transform 0.12s, box-shadow 0.15s;
+    }
+
+    .btn-rpm-begin:active { transform: scale(0.97); }
+
     /* ── QUESTION SCREENS ── */
     .question-screen {
       padding: 40px 24px;
@@ -1917,7 +2139,7 @@
       </div>
 
       <div class="end-buttons">
-        <button class="btn-continue-main" onclick="goTo('screen-results-open')">
+        <button class="btn-continue-main" onclick="goTo('screen-rpm-intro')">
           Create Your MAP &nbsp;&rarr;
         </button>
         <button class="btn-replay-styled" onclick="replayVideo()">
@@ -1926,6 +2148,87 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- SCREEN — RPM ORIENTATION -->
+  <div class="screen" id="screen-rpm-intro">
+    <div class="rpm-intro-inner">
+
+      <div class="rpm-intro-eyebrow">Before We Begin</div>
+      <div class="rpm-intro-headline">The System That Will<br/><span>Build Your MAP</span></div>
+      <div class="rpm-intro-subhead">
+        Tony Robbins has used this framework to coach world leaders, Olympic athletes, and top CEOs. In the next 15 minutes, you will use it to build your personal plan.
+      </div>
+
+      <!-- Audio bar -->
+      <div class="rpm-intro-audio-bar" id="rpm-intro-audio-bar">
+        <div class="rpm-intro-waves">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        Tony Robbins — On RPM
+      </div>
+
+      <!-- Three pillars -->
+      <div class="rpm-pillars">
+        <div class="rpm-pillar">
+          <div class="rpm-pillar-letter letter-r">R</div>
+          <div class="rpm-pillar-content">
+            <div class="rpm-pillar-title">Results</div>
+            <div class="rpm-pillar-desc">What do you want — really? Not a vague direction. A specific, compelling, measurable result that your brain can lock onto like a target.</div>
+          </div>
+        </div>
+        <div class="rpm-pillar">
+          <div class="rpm-pillar-letter letter-p">P</div>
+          <div class="rpm-pillar-content">
+            <div class="rpm-pillar-title">Purpose</div>
+            <div class="rpm-pillar-desc">Why does it matter? Purpose is stronger than the object. When your why is strong enough, the how becomes irrelevant — you find a way.</div>
+          </div>
+        </div>
+        <div class="rpm-pillar">
+          <div class="rpm-pillar-letter letter-m">M</div>
+          <div class="rpm-pillar-content">
+            <div class="rpm-pillar-title">Massive Action Plan</div>
+            <div class="rpm-pillar-desc">What will you do? Not a to-do list — a real plan, built around your result and fueled by your purpose. Massive action is the cure-all.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- What to expect -->
+      <div class="rpm-expect-box">
+        <div class="rpm-expect-title">What You Are About to Experience</div>
+        <ul class="rpm-expect-list">
+          <li class="rpm-expect-item">
+            <div class="rpm-expect-dot"></div>
+            Tony's voice will guide you into each question — listen before you write
+          </li>
+          <li class="rpm-expect-item">
+            <div class="rpm-expect-dot"></div>
+            Three phases — Results, Purpose, Massive Action — each building on the last
+          </li>
+          <li class="rpm-expect-item">
+            <div class="rpm-expect-dot"></div>
+            At the end, your personal MAP is generated — specific to exactly what you wrote
+          </li>
+          <li class="rpm-expect-item">
+            <div class="rpm-expect-dot"></div>
+            The more honest you are, the more powerful your MAP will be
+          </li>
+        </ul>
+      </div>
+
+      <div class="rpm-intro-disclaimer">
+        Takes about 15 minutes. There are no right or wrong answers.<br/>Just write what is true for you right now.
+      </div>
+
+      <button class="btn-rpm-begin" onclick="goTo('screen-results-open')">
+        I&apos;m Ready — Let&apos;s Build &nbsp;&rarr;
+      </button>
+
+    </div>
+
+    <audio id="audio-rpm-intro" preload="auto">
+      <source src="rpm-intro.mp3" type="audio/mpeg" />
+    </audio>
   </div>
 
   <!-- SCREEN 3 — RESULTS PHASE OPENING -->
@@ -2439,6 +2742,10 @@
     };
   }
 
+  function playRpmIntroAudio() {
+    playAudio('audio-rpm-intro', 'rpm-intro-audio-bar');
+  }
+
   function playResultsOpenAudio() {
     playAudio('audio-results-open', 'results-audio-bar');
   }
@@ -2773,6 +3080,7 @@
   var screenOrder = [
     'screen-start',
     'screen-video',
+    'screen-rpm-intro',
     'screen-results-open',
     'screen-q1',
     'screen-response-r1',
@@ -2788,6 +3096,7 @@
 
   // Progress config — which screens show the bar and how to fill it
   var progressConfig = {
+    'screen-rpm-intro':     { show: false, r: 0,  p: 0,   m: 0,  activePhase: 'r' },
     'screen-results-open':  { show: true, r: 5,   p: 0,   m: 0,  activePhase: 'r' },
     'screen-q1':            { show: true, r: 60,  p: 0,   m: 0,  activePhase: 'r' },
     'screen-response-r1':   { show: true, r: 100, p: 0,   m: 0,  activePhase: 'r' },
@@ -2899,6 +3208,9 @@
         var unmuteBtn = document.getElementById('btn-unmute');
         if (unmuteBtn) unmuteBtn.classList.remove('hidden');
       }
+    } else if (id === 'screen-rpm-intro') {
+      pauseVimeo();
+      playRpmIntroAudio();
     } else if (id === 'screen-results-open') {
       pauseVimeo();
       playResultsOpenAudio();
