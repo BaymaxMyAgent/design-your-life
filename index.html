@@ -1105,7 +1105,7 @@
       <div class="q-footer">
         <button class="btn-back" onclick="goTo('screen-purpose-open', true)">&larr; Back</button>
         <div class="q-progress">P · 1 of 5</div>
-        <button class="btn-next" onclick="goTo('screen-complete')">Next &rarr;</button>
+        <button class="btn-next" onclick="goTo('screen-map-open')">Next &rarr;</button>
       </div>
     </div>
 
@@ -1114,7 +1114,166 @@
     </audio>
   </div>
 
-  <!-- SCREEN — COMPLETE (placeholder until all phases built) -->
+  <!-- SCREEN — MAP PHASE OPENING -->
+  <div class="screen" id="screen-map-open">
+    <div class="phase-orb phase-orb-1"></div>
+    <div class="phase-orb phase-orb-2"></div>
+
+    <div class="phase-open-screen">
+
+      <div class="phase-label">Phase 3 of 3 &nbsp;·&nbsp; RPM Framework</div>
+      <div class="phase-divider"></div>
+      <div class="phase-title">MAP</div>
+      <div class="phase-subtitle">Massive Action Plan</div>
+
+      <div class="phase-audio-bar" id="map-audio-bar">
+        <div class="phase-audio-waves">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        TONY ROBBINS — MASSIVE ACTION
+      </div>
+
+      <div class="phase-quote">
+        "Massive action is the cure-all. The one thing people who overachieve have in common — they're relentless. They just keep going."
+      </div>
+      <div class="phase-quote-attr">— Tony Robbins</div>
+
+      <button class="btn-phase-next" onclick="goTo('screen-map-q1')">
+        Let's Build &nbsp;&rarr;
+      </button>
+
+    </div>
+
+    <audio id="audio-map-open" preload="auto">
+      <source src="map-title-page.mp3" type="audio/mpeg" />
+    </audio>
+  </div>
+
+  <!-- SCREEN — MAP QUESTION 1: Action Categories -->
+  <div class="screen" id="screen-map-q1">
+    <div class="question-screen">
+      <div class="q-phase q-phase-label">MASSIVE ACTION — Question 1</div>
+      <div class="audio-indicator" id="map-q1-audio-bar">
+        <div class="audio-dot"></div>
+        TONY ROBBINS AUDIO PLAYING
+      </div>
+      <div class="q-handoff">You have the what and the why. Now — the how just flows.</div>
+      <div class="q-text">
+        What are the major areas of action required to achieve your result? Think in categories — not specific tasks yet.
+      </div>
+      <div class="q-subtext">
+        List 3–6 categories. These become the pillars of your MAP. (Example: Health, Relationships, Skills, Finances, Mindset, Team...)
+      </div>
+      <textarea class="q-input" id="answer-map-q1" placeholder="Start writing your categories here..."></textarea>
+      <div class="q-footer">
+        <button class="btn-back" onclick="goTo('screen-map-open', true)">&larr; Back</button>
+        <div class="q-progress">M · 1 of 5</div>
+        <button class="btn-next" onclick="goTo('screen-map-q2')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <audio id="audio-map-q1" preload="auto">
+      <source src="map-q1.mp3" type="audio/mpeg" />
+    </audio>
+  </div>
+
+  <!-- SCREEN — MAP QUESTION 2: First Move -->
+  <div class="screen" id="screen-map-q2">
+    <div class="question-screen">
+      <div class="q-phase q-phase-label">MASSIVE ACTION — Question 2</div>
+      <div class="audio-indicator">
+        <div class="audio-dot"></div>
+        TONY ROBBINS AUDIO PLAYING
+      </div>
+      <div class="q-handoff">Don't ask how. Ask who. That's where the leverage is.</div>
+      <div class="q-text">
+        What is the single most important action you could take in the next 7 days that would create real momentum toward this result?
+      </div>
+      <div class="q-subtext">
+        Not the perfect action. The most important one. The one you keep putting off.
+      </div>
+      <textarea class="q-input" id="answer-map-q2" placeholder="Start writing your answer here..."></textarea>
+      <div class="q-footer">
+        <button class="btn-back" onclick="goTo('screen-map-q1', true)">&larr; Back</button>
+        <div class="q-progress">M · 2 of 5</div>
+        <button class="btn-next" onclick="goTo('screen-map-q3')">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN — MAP QUESTION 3: Name Obstacles -->
+  <div class="screen" id="screen-map-q3">
+    <div class="question-screen">
+      <div class="q-phase q-phase-label">MASSIVE ACTION — Question 3</div>
+      <div class="audio-indicator">
+        <div class="audio-dot"></div>
+        TONY ROBBINS AUDIO PLAYING
+      </div>
+      <div class="q-handoff">You can't navigate around what you won't name.</div>
+      <div class="q-text">
+        What are the 2–3 biggest obstacles standing between you and this result right now?
+      </div>
+      <div class="q-subtext">
+        Name them. Obstacles unnamed stay powerful. Obstacles named become problems to solve.
+      </div>
+      <textarea class="q-input" id="answer-map-q3" placeholder="Start writing your answer here..."></textarea>
+      <div class="q-footer">
+        <button class="btn-back" onclick="goTo('screen-map-q2', true)">&larr; Back</button>
+        <div class="q-progress">M · 3 of 5</div>
+        <button class="btn-next" onclick="goTo('screen-map-q4')">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN — MAP QUESTION 4: Obstacle Strategy -->
+  <div class="screen" id="screen-map-q4">
+    <div class="question-screen">
+      <div class="q-phase q-phase-label">MASSIVE ACTION — Question 4</div>
+      <div class="audio-indicator">
+        <div class="audio-dot"></div>
+        TONY ROBBINS AUDIO PLAYING
+      </div>
+      <div class="q-handoff">If the first how doesn't work — try another. Until you figure it out.</div>
+      <div class="q-text">
+        For each obstacle you just named — what is your committed strategy for overcoming it?
+      </div>
+      <div class="q-subtext">
+        You don't need a perfect strategy. You need a committed one. What will you do?
+      </div>
+      <textarea class="q-input" id="answer-map-q4" placeholder="Start writing your answer here..."></textarea>
+      <div class="q-footer">
+        <button class="btn-back" onclick="goTo('screen-map-q3', true)">&larr; Back</button>
+        <div class="q-progress">M · 4 of 5</div>
+        <button class="btn-next" onclick="goTo('screen-map-q5')">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN — MAP QUESTION 5: Shared Commitment -->
+  <div class="screen" id="screen-map-q5">
+    <div class="question-screen">
+      <div class="q-phase q-phase-label">MASSIVE ACTION — Question 5</div>
+      <div class="audio-indicator">
+        <div class="audio-dot"></div>
+        TONY ROBBINS AUDIO PLAYING
+      </div>
+      <div class="q-handoff">Leverage is staying connected — not handing it off and forgetting about it.</div>
+      <div class="q-text">
+        Who in your life will you share this MAP with — someone who will hold you accountable to it?
+      </div>
+      <div class="q-subtext">
+        Commitment spoken only to yourself is the weakest kind. Who deserves to know about this?
+      </div>
+      <textarea class="q-input" id="answer-map-q5" placeholder="A name and their relationship to you..."></textarea>
+      <div class="q-footer">
+        <button class="btn-back" onclick="goTo('screen-map-q4', true)">&larr; Back</button>
+        <div class="q-progress">M · 5 of 5</div>
+        <button class="btn-next" onclick="goTo('screen-complete')">Complete &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN — COMPLETE -->
   <div class="screen" id="screen-complete">
     <div style="text-align:center; padding: 0 24px; max-width:600px;">
       <div style="font-size:3em; margin-bottom:16px;">🎯</div>
@@ -1253,6 +1412,18 @@
     }, 1100);
   }
 
+  function playMapOpenAudio() {
+    playAudio('audio-map-open', 'map-audio-bar');
+  }
+
+  function playMapQ1AudioDelayed() {
+    setTimeout(function() {
+      if (currentScreen === 'screen-map-q1') {
+        playAudio('audio-map-q1', 'map-q1-audio-bar');
+      }
+    }, 1100);
+  }
+
   // ── Textarea micro-interactions ──
   function initTextareaListeners() {
     var inputs = document.querySelectorAll('.q-input');
@@ -1285,15 +1456,27 @@
     'screen-q1',
     'screen-purpose-open',
     'screen-purpose-q1',
+    'screen-map-open',
+    'screen-map-q1',
+    'screen-map-q2',
+    'screen-map-q3',
+    'screen-map-q4',
+    'screen-map-q5',
     'screen-complete'
   ];
 
   // Progress config — which screens show the bar and how to fill it
   var progressConfig = {
-    'screen-results-open':  { show: true, r: 5,   p: 0,  m: 0, activePhase: 'r' },
-    'screen-q1':            { show: true, r: 50,  p: 0,  m: 0, activePhase: 'r' },
-    'screen-purpose-open':  { show: true, r: 100, p: 5,  m: 0, activePhase: 'p' },
-    'screen-purpose-q1':    { show: true, r: 100, p: 25, m: 0, activePhase: 'p' },
+    'screen-results-open':  { show: true, r: 5,   p: 0,  m: 0,   activePhase: 'r' },
+    'screen-q1':            { show: true, r: 50,  p: 0,  m: 0,   activePhase: 'r' },
+    'screen-purpose-open':  { show: true, r: 100, p: 5,  m: 0,   activePhase: 'p' },
+    'screen-purpose-q1':    { show: true, r: 100, p: 25, m: 0,   activePhase: 'p' },
+    'screen-map-open':      { show: true, r: 100, p: 100, m: 5,  activePhase: 'm' },
+    'screen-map-q1':        { show: true, r: 100, p: 100, m: 20, activePhase: 'm' },
+    'screen-map-q2':        { show: true, r: 100, p: 100, m: 40, activePhase: 'm' },
+    'screen-map-q3':        { show: true, r: 100, p: 100, m: 55, activePhase: 'm' },
+    'screen-map-q4':        { show: true, r: 100, p: 100, m: 70, activePhase: 'm' },
+    'screen-map-q5':        { show: true, r: 100, p: 100, m: 88, activePhase: 'm' },
     'screen-complete':      { show: true, r: 100, p: 100, m: 100, activePhase: 'm' },
   };
 
@@ -1407,6 +1590,12 @@
     } else if (id === 'screen-purpose-q1') {
       pauseVimeo();
       playPurposeQ1AudioDelayed();
+    } else if (id === 'screen-map-open') {
+      pauseVimeo();
+      playMapOpenAudio();
+    } else if (id === 'screen-map-q1') {
+      pauseVimeo();
+      playMapQ1AudioDelayed();
     } else {
       pauseVimeo();
       hideEndOverlay();
