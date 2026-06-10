@@ -119,6 +119,70 @@
       border: 0;
     }
 
+    /* ── VIDEO UNMUTE BUTTON ── */
+    #btn-unmute {
+      position: absolute;
+      top: 24px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 28px;
+      background: rgba(0,0,0,0.55);
+      border: 2px solid var(--gold);
+      border-radius: 50px;
+      color: var(--gold);
+      font-size: clamp(0.8em, 2vw, 0.95em);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 16px rgba(240,197,93,0.25), 0 0 40px rgba(240,197,93,0.08);
+      transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s, opacity 0.4s;
+    }
+
+    #btn-unmute:hover {
+      background: rgba(240,197,93,0.15);
+      box-shadow: 0 0 24px rgba(240,197,93,0.45), 0 0 60px rgba(240,197,93,0.15);
+    }
+
+    #btn-unmute.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .unmute-icon {
+      font-size: 1.15em;
+      line-height: 1;
+    }
+
+    /* ── VIDEO SKIP BUTTON ── */
+    #btn-skip-video {
+      position: absolute;
+      bottom: 24px; right: 28px;
+      z-index: 20;
+      padding: 9px 22px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50px;
+      color: rgba(255,255,255,0.4);
+      font-size: clamp(0.7em, 1.8vw, 0.8em);
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+
+    #btn-skip-video:hover {
+      color: var(--white);
+      border-color: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.06);
+    }
+
+    @media (max-width: 480px) {
+      #btn-unmute { top: 18px; padding: 10px 22px; }
+      #btn-skip-video { bottom: 18px; right: 18px; }
+    }
+
     /* ── VIDEO END OVERLAY ── */
     #video-end-overlay {
       position: absolute; inset: 0;
@@ -470,6 +534,17 @@
       animation: none;
     }
 
+    .q-handoff {
+      font-size: clamp(1em, 2.8vw, 1.2em);
+      font-weight: 600;
+      font-style: italic;
+      color: var(--cyan);
+      opacity: 0.75;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+      margin-bottom: 14px;
+    }
+
     .audio-dot {
       width: 8px; height: 8px; border-radius: 50%;
       background: var(--gold);
@@ -536,6 +611,17 @@
     <div id="vimeo-container">
       <div id="vimeo-player-placeholder"></div>
     </div>
+
+    <!-- Unmute button — top center, dismisses itself on click -->
+    <button id="btn-unmute" onclick="unmuteVideo()">
+      <span class="unmute-icon">🔇</span>
+      TAP TO UNMUTE
+    </button>
+
+    <!-- Skip button — bottom right, always available -->
+    <button id="btn-skip-video" onclick="goTo('screen-results-open')">
+      Skip Video &nbsp;&#8594;
+    </button>
 
     <!-- End-of-video overlay (no standalone Continue button — this IS the gate) -->
     <div id="video-end-overlay">
@@ -608,6 +694,7 @@
         <div class="audio-dot"></div>
         TONY ROBBINS AUDIO PLAYING
       </div>
+      <div class="q-handoff">What is the ONE thing pulling you right now?</div>
       <div class="q-text">
         Right now — if everything else fell away — what is the ONE outcome that, if you achieved it, would change everything else?
       </div>
@@ -700,13 +787,23 @@
     var placeholder = document.getElementById('vimeo-player-placeholder');
     if (!placeholder) return;
 
+    // Desktop starts unmuted (autoplay with sound works); mobile starts muted (browser policy)
+    var isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768;
+    var mutedParam = isMobile ? 1 : 0;
+
     var iframe = document.createElement('iframe');
     iframe.id = 'vimeo-player';
-    iframe.src = 'https://player.vimeo.com/video/1198917532?autoplay=1&muted=0&controls=1&loop=0&playsinline=1&title=0&byline=0&portrait=0';
+    iframe.src = 'https://player.vimeo.com/video/1198917532?autoplay=1&muted=' + mutedParam + '&controls=1&loop=0&playsinline=1&title=0&byline=0&portrait=0';
     iframe.allow = 'autoplay; fullscreen; picture-in-picture';
     iframe.allowFullscreen = true;
     iframe.style.cssText = 'position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-height:100vh;min-width:177.78vh;transform:translate(-50%,-50%);border:0;';
     placeholder.replaceWith(iframe);
+
+    // Only show the unmute button on mobile — desktop starts with sound on
+    if (!isMobile) {
+      var unmuteBtn = document.getElementById('btn-unmute');
+      if (unmuteBtn) unmuteBtn.classList.add('hidden');
+    }
 
     if (typeof Vimeo !== 'undefined') {
       vimeoPlayer = new Vimeo.Player(iframe);
@@ -717,6 +814,14 @@
         }
       });
     }
+  }
+
+  function unmuteVideo() {
+    if (vimeoPlayer) {
+      vimeoPlayer.setVolume(1).catch(function(){});
+    }
+    var btn = document.getElementById('btn-unmute');
+    if (btn) btn.classList.add('hidden');
   }
 
   function playAudio(audioId, barId) {
@@ -771,6 +876,11 @@
     if (id === 'screen-video') {
       initVimeoPlayer();
       hideEndOverlay();
+      // On mobile, re-show unmute button when returning to video screen
+      if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768) {
+        var unmuteBtn = document.getElementById('btn-unmute');
+        if (unmuteBtn) unmuteBtn.classList.remove('hidden');
+      }
     } else if (id === 'screen-results-open') {
       pauseVimeo();
       playResultsOpenAudio();
