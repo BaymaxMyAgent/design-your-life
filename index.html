@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#001f3f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <title>Design Your Life — Tony Robbins RPM</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -121,190 +124,125 @@
     }
 
 
-    /* ── VIDEO ANIMATED BORDER ── Safari/iOS compatible approach ── */
+    /* ══════════════════════════════════════════════════════
+       VIDEO FRAME OVERLAY
+       SVG-based border — guaranteed visible on any background.
+       Corners are solid gold. Edges pulse cyan→gold→cyan.
+       Bottom bar + Skip are FIXED position, above browser chrome.
+    ══════════════════════════════════════════════════════ */
 
-    /* Four glowing edge bars that pulse in sequence — no @property needed */
-    #video-border-frame {
-      position: absolute; inset: 0;
-      z-index: 10;
+    /* SVG overlay fills the whole screen, pointer-events:none */
+    #video-border-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      z-index: 15;
       pointer-events: none;
+      overflow: visible;
     }
 
-    /* Each edge is a STACK of two layers:
-       1. Dark shadow strip  — always visible, gives contrast on light backgrounds
-       2. Colour pulse strip — the cyan/gold glow on top                          */
+    /* Corner lines — always fully visible */
+    .svg-corner { stroke: #f0c55d; stroke-width: 5; fill: none;
+                  filter: drop-shadow(0 0 4px rgba(240,197,93,0.9))
+                          drop-shadow(0 0 2px #000); }
 
-    .vbf-edge {
-      position: absolute;
+    /* Animated edge lines — dark backing + colour on top */
+    .svg-edge-bg { stroke: rgba(0,0,0,0.7); stroke-width: 6; fill: none; }
+
+    .svg-edge-color {
+      stroke-width: 4; fill: none;
+      stroke-dasharray: 200 2000;
+      stroke-dashoffset: 0;
+      stroke-linecap: round;
       opacity: 0;
-      animation: edgePulse 3.2s ease-in-out infinite;
+      animation: svgEdgePulse 3.6s ease-in-out infinite;
     }
 
-    /* Shared pseudo — dark backing strip, always rendered under the colour */
-    .vbf-edge::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.55);
+    @keyframes svgEdgePulse {
+      0%   { opacity: 0;    stroke-dashoffset:  200; }
+      20%  { opacity: 1;    stroke-dashoffset:    0; }
+      60%  { opacity: 0.6;  stroke-dashoffset: -200; }
+      80%  { opacity: 0;    stroke-dashoffset: -400; }
+      100% { opacity: 0;    stroke-dashoffset: -400; }
     }
 
-    /* Colour layer on top */
-    .vbf-edge::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-    }
+    #edge-top    { animation-delay: 0s;   }
+    #edge-right  { animation-delay: 0.9s; }
+    #edge-bottom { animation-delay: 1.8s; }
+    #edge-left   { animation-delay: 2.7s; }
 
-    /* Top edge */
-    .vbf-edge--top {
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      animation-delay: 0s;
-    }
-    .vbf-edge--top::after {
-      background: linear-gradient(90deg,
-        transparent 0%, var(--cyan) 30%, var(--gold) 50%, var(--cyan) 70%, transparent 100%);
-      box-shadow: 0 0 10px 2px rgba(94,186,221,0.6), 0 0 20px 4px rgba(240,197,93,0.3);
-    }
-
-    /* Right edge */
-    .vbf-edge--right {
-      top: 0; right: 0; bottom: 0;
-      width: 4px;
-      animation-delay: 0.8s;
-    }
-    .vbf-edge--right::after {
-      background: linear-gradient(180deg,
-        transparent 0%, var(--cyan) 30%, var(--gold) 50%, var(--cyan) 70%, transparent 100%);
-      box-shadow: 0 0 10px 2px rgba(94,186,221,0.6), 0 0 20px 4px rgba(240,197,93,0.3);
-    }
-
-    /* Bottom edge */
-    .vbf-edge--bottom {
+    /* ── FIXED BOTTOM BAR + SKIP — lives outside the video div,
+       always sits above browser chrome ── */
+    #video-ui-bar {
+      position: fixed;
       bottom: 0; left: 0; right: 0;
-      height: 4px;
-      animation-delay: 1.6s;
-    }
-    .vbf-edge--bottom::after {
-      background: linear-gradient(90deg,
-        transparent 0%, var(--cyan) 30%, var(--gold) 50%, var(--cyan) 70%, transparent 100%);
-      box-shadow: 0 0 10px 2px rgba(94,186,221,0.6), 0 0 20px 4px rgba(240,197,93,0.3);
-    }
-
-    /* Left edge */
-    .vbf-edge--left {
-      top: 0; left: 0; bottom: 0;
-      width: 4px;
-      animation-delay: 2.4s;
-    }
-    .vbf-edge--left::after {
-      background: linear-gradient(180deg,
-        transparent 0%, var(--cyan) 30%, var(--gold) 50%, var(--cyan) 70%, transparent 100%);
-      box-shadow: 0 0 10px 2px rgba(94,186,221,0.6), 0 0 20px 4px rgba(240,197,93,0.3);
-    }
-
-    @keyframes edgePulse {
-      0%   { opacity: 0;   }
-      15%  { opacity: 1;   }
-      45%  { opacity: 0.7; }
-      75%  { opacity: 0;   }
-      100% { opacity: 0;   }
-    }
-
-    /* Persistent dark inner vignette — frames the video on any background */
-    #video-border-frame::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      box-shadow:
-        inset 0 0 60px rgba(0,0,0,0.35),
-        inset 0 0 20px rgba(0,0,0,0.2);
-    }
-
-    /* Corner accent marks — bold, visible on mobile */
-    .video-corner {
-      position: absolute;
-      width: 40px; height: 40px;
-      z-index: 11;
-      pointer-events: none;
-    }
-
-    .video-corner::before,
-    .video-corner::after {
-      content: '';
-      position: absolute;
-      background: var(--gold);
-      border-radius: 1.5px;
-      /* Dark outline behind the gold so it shows on light AND dark backgrounds */
-      box-shadow:
-        0 0 0 1.5px rgba(0,0,0,0.6),
-        0 0 8px  rgba(240,197,93,0.8),
-        0 0 20px rgba(240,197,93,0.4);
-    }
-
-    .video-corner::before { width: 100%; height: 3px; top: 0; left: 0; }
-    .video-corner::after  { width: 3px; height: 100%; top: 0; left: 0; }
-
-    .video-corner--tl { top: 16px; left: 16px; }
-    .video-corner--tr { top: 16px; right: 16px; transform: scaleX(-1); }
-    .video-corner--bl { bottom: 16px; left: 16px; transform: scaleY(-1); }
-    .video-corner--br { bottom: 16px; right: 16px; transform: scale(-1); }
-
-    /* ── VIDEO BOTTOM BAR ── */
-    #video-bottom-bar {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      z-index: 13;
-      pointer-events: none;
-      /* Push well clear of iOS browser chrome — safe-area + fixed floor */
-      padding: 56px 24px 0;
-      padding-bottom: max(56px, calc(env(safe-area-inset-bottom, 0px) + 40px));
-      background: linear-gradient(
-        to top,
-        rgba(0,5,18,0.95)  0%,
-        rgba(0,10,28,0.82) 40%,
-        rgba(0,15,38,0.5)  70%,
-        transparent        100%
-      );
-      display: flex;
+      z-index: 9000;
+      display: none;           /* shown via JS when video screen is active */
       flex-direction: column;
       align-items: center;
-      gap: 6px;
-      transition: opacity 0.4s ease;
+      gap: 0;
+      background: linear-gradient(to top,
+        rgba(0,4,14,1)    0%,
+        rgba(0,8,22,0.97) 35%,
+        rgba(0,12,30,0.9) 60%,
+        transparent       100%);
+      padding-top: 36px;
+      /* Hard floor — always clears browser chrome */
+      padding-bottom: 18px;
     }
 
-    #video-bottom-bar.hidden { opacity: 0; }
+    #video-ui-bar.visible { display: flex; }
+    #video-ui-bar.hidden  { display: none; }
 
     .vbb-lockup {
       display: flex; align-items: center; gap: 14px;
+      margin-bottom: 3px;
     }
 
     .vbb-line {
-      width: 32px; height: 1.5px;
+      width: 28px; height: 1.5px;
       background: linear-gradient(90deg, transparent, var(--gold));
       opacity: 0.7;
     }
-
-    .vbb-line-r {
-      background: linear-gradient(90deg, var(--gold), transparent);
-    }
+    .vbb-line-r { background: linear-gradient(90deg, var(--gold), transparent); }
 
     .vbb-name {
-      font-size: clamp(0.72em, 2.5vw, 0.85em);
+      font-size: 0.78em;
       font-weight: 700;
-      letter-spacing: 0.3em;
+      letter-spacing: 0.28em;
       color: var(--gold);
-      opacity: 0.95;
       text-transform: uppercase;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
     }
 
     .vbb-title {
-      font-size: clamp(0.58em, 1.8vw, 0.68em);
+      font-size: 0.62em;
       font-weight: 400;
-      letter-spacing: 0.2em;
-      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.55);
       text-transform: uppercase;
+      margin-bottom: 10px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    }
+
+    #btn-skip-video {
+      padding: 8px 26px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 50px;
+      color: rgba(255,255,255,0.65);
+      font-size: 0.78em;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      pointer-events: all;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+
+    #btn-skip-video:hover, #btn-skip-video:active {
+      color: var(--white);
+      border-color: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.08);
     }
 
     /* ── VIDEO UNMUTE BUTTON ── */
@@ -370,11 +308,6 @@
       color: var(--white);
       border-color: rgba(255,255,255,0.5);
       background: rgba(255,255,255,0.06);
-    }
-
-    @media (max-width: 480px) {
-      #btn-unmute { top: 18px; padding: 10px 22px; }
-      #btn-skip-video { bottom: 18px; right: 18px; }
     }
 
     /* ── VIDEO END OVERLAY ── */
@@ -799,6 +732,19 @@
     <button class="btn-start" onclick="goTo('screen-video')">Start</button>
   </div>
 
+  <!-- FIXED bottom bar + skip — outside screen-video so it escapes the video stacking context -->
+  <div id="video-ui-bar">
+    <div class="vbb-lockup">
+      <div class="vbb-line"></div>
+      <div class="vbb-name">Tony Robbins</div>
+      <div class="vbb-line vbb-line-r"></div>
+    </div>
+    <div class="vbb-title">Design Your Life &nbsp;·&nbsp; RPM Experience</div>
+    <button id="btn-skip-video" onclick="goTo('screen-results-open')">
+      Skip Video &nbsp;&#8594;
+    </button>
+  </div>
+
   <!-- SCREEN 2 — WELCOME VIDEO -->
   <div class="screen" id="screen-video">
 
@@ -806,39 +752,60 @@
       <div id="vimeo-player-placeholder"></div>
     </div>
 
-    <!-- Animated border frame — four edges pulse in sequence -->
-    <div id="video-border-frame">
-      <div class="vbf-edge vbf-edge--top"></div>
-      <div class="vbf-edge vbf-edge--right"></div>
-      <div class="vbf-edge vbf-edge--bottom"></div>
-      <div class="vbf-edge vbf-edge--left"></div>
-    </div>
+    <!-- SVG border overlay — works on any background, no CSS trickery needed -->
+    <svg id="video-border-svg" viewBox="0 0 100 100" preserveAspectRatio="none"
+         xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="edgeGradH" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"   stop-color="#5ebadd" stop-opacity="0"/>
+          <stop offset="40%"  stop-color="#5ebadd" stop-opacity="1"/>
+          <stop offset="50%"  stop-color="#f0c55d" stop-opacity="1"/>
+          <stop offset="60%"  stop-color="#5ebadd" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#5ebadd" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="edgeGradV" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%"   stop-color="#5ebadd" stop-opacity="0"/>
+          <stop offset="40%"  stop-color="#5ebadd" stop-opacity="1"/>
+          <stop offset="50%"  stop-color="#f0c55d" stop-opacity="1"/>
+          <stop offset="60%"  stop-color="#5ebadd" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#5ebadd" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
 
-    <!-- Corner accents -->
-    <div class="video-corner video-corner--tl"></div>
-    <div class="video-corner video-corner--tr"></div>
-    <div class="video-corner video-corner--bl"></div>
-    <div class="video-corner video-corner--br"></div>
+      <!-- Dark backing lines — always visible regardless of video content -->
+      <line class="svg-edge-bg" x1="0" y1="0" x2="100" y2="0"/>
+      <line class="svg-edge-bg" x1="100" y1="0" x2="100" y2="100"/>
+      <line class="svg-edge-bg" x1="0" y1="100" x2="100" y2="100"/>
+      <line class="svg-edge-bg" x1="0" y1="0" x2="0" y2="100"/>
 
-    <!-- Bottom identity bar -->
-    <div id="video-bottom-bar">
-      <div class="vbb-lockup">
-        <div class="vbb-line"></div>
-        <div class="vbb-name">Tony Robbins</div>
-        <div class="vbb-line vbb-line-r"></div>
-      </div>
-      <div class="vbb-title">Design Your Life &nbsp;·&nbsp; RPM Experience</div>
-    </div>
+      <!-- Animated colour lines on top -->
+      <line id="edge-top"    class="svg-edge-color" stroke="url(#edgeGradH)"
+            x1="0" y1="0" x2="100" y2="0"   vector-effect="non-scaling-stroke"/>
+      <line id="edge-right"  class="svg-edge-color" stroke="url(#edgeGradV)"
+            x1="100" y1="0" x2="100" y2="100" vector-effect="non-scaling-stroke"/>
+      <line id="edge-bottom" class="svg-edge-color" stroke="url(#edgeGradH)"
+            x1="0" y1="100" x2="100" y2="100" vector-effect="non-scaling-stroke"/>
+      <line id="edge-left"   class="svg-edge-color" stroke="url(#edgeGradV)"
+            x1="0" y1="0" x2="0" y2="100"   vector-effect="non-scaling-stroke"/>
 
-    <!-- Unmute button — top center, dismisses itself on click -->
+      <!-- Gold corner brackets — TL -->
+      <polyline class="svg-corner" points="0,8 0,0 8,0"
+                vector-effect="non-scaling-stroke"/>
+      <!-- TR -->
+      <polyline class="svg-corner" points="92,0 100,0 100,8"
+                vector-effect="non-scaling-stroke"/>
+      <!-- BL -->
+      <polyline class="svg-corner" points="0,92 0,100 8,100"
+                vector-effect="non-scaling-stroke"/>
+      <!-- BR -->
+      <polyline class="svg-corner" points="92,100 100,100 100,92"
+                vector-effect="non-scaling-stroke"/>
+    </svg>
+
+    <!-- Unmute button — top center -->
     <button id="btn-unmute" onclick="unmuteVideo()">
       <span class="unmute-icon">🔇</span>
       TAP TO UNMUTE
-    </button>
-
-    <!-- Skip button — bottom right, always available -->
-    <button id="btn-skip-video" onclick="goTo('screen-results-open')">
-      Skip Video &nbsp;&#8594;
     </button>
 
     <!-- End-of-video overlay (no standalone Continue button — this IS the gate) -->
@@ -998,6 +965,11 @@
     }
   }
 
+  function hideVideoUIBar() {
+    var uiBar = document.getElementById('video-ui-bar');
+    if (uiBar) { uiBar.classList.remove('visible'); uiBar.classList.add('hidden'); }
+  }
+
   function initVimeoPlayer() {
     if (vimeoLoaded) return;
     vimeoLoaded = true;
@@ -1029,8 +1001,8 @@
         if (currentScreen === 'screen-video') {
           var overlay = document.getElementById('video-end-overlay');
           if (overlay) overlay.classList.add('visible');
-          var bar = document.getElementById('video-bottom-bar');
-          if (bar) bar.classList.add('hidden');
+          var uiBar2 = document.getElementById('video-ui-bar');
+          if (uiBar2) { uiBar2.classList.remove('visible'); uiBar2.classList.add('hidden'); }
         }
       });
     }
@@ -1076,6 +1048,8 @@
   function goTo(id) {
     // Stop any playing audio when navigating away
     stopActiveAudio();
+    // Hide the fixed video UI bar unless we are going to the video screen
+    if (id !== 'screen-video') hideVideoUIBar();
 
     var old = document.getElementById(currentScreen);
     if (old) old.classList.remove('active');
@@ -1096,6 +1070,9 @@
     if (id === 'screen-video') {
       initVimeoPlayer();
       hideEndOverlay();
+      // Show the fixed UI bar when on the video screen
+      var uiBar = document.getElementById('video-ui-bar');
+      if (uiBar) { uiBar.classList.add('visible'); uiBar.classList.remove('hidden'); }
       // On mobile, re-show unmute button when returning to video screen
       if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768) {
         var unmuteBtn = document.getElementById('btn-unmute');
@@ -1126,8 +1103,8 @@
 
   function replayVideo() {
     hideEndOverlay();
-    var bar = document.getElementById('video-bottom-bar');
-    if (bar) bar.classList.remove('hidden');
+    var uiBar3 = document.getElementById('video-ui-bar');
+    if (uiBar3) { uiBar3.classList.add('visible'); uiBar3.classList.remove('hidden'); }
     if (vimeoPlayer) {
       vimeoPlayer.setCurrentTime(0).then(function() {
         vimeoPlayer.play().catch(function(){});
