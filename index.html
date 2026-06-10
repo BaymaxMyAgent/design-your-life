@@ -1562,15 +1562,30 @@
       justify-content: flex-start;
       align-items: stretch;
       padding: 0;
+      flex-direction: column;
+    }
+
+    .rpm-intro-scroll {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .rpm-intro-inner {
       max-width: 680px;
       width: 100%;
       margin: 0 auto;
-      padding: 48px 28px 56px;
+      padding: 48px 28px 24px;
       display: flex;
       flex-direction: column;
+    }
+
+    /* Sticky button footer — always above browser chrome */
+    .rpm-intro-footer {
+      flex-shrink: 0;
+      background: linear-gradient(to top, #000b1e 60%, transparent 100%);
+      padding: 16px 28px;
+      padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
     }
 
     .rpm-intro-eyebrow {
@@ -1773,6 +1788,7 @@
       font-family: inherit;
       box-shadow: 0 0 24px rgba(0,234,255,0.25), 0 0 60px rgba(0,234,255,0.1);
       transition: transform 0.12s, box-shadow 0.15s;
+      display: block;
     }
 
     .btn-rpm-begin:active { transform: scale(0.97); }
@@ -2152,6 +2168,7 @@
 
   <!-- SCREEN — RPM ORIENTATION -->
   <div class="screen" id="screen-rpm-intro">
+    <div class="rpm-intro-scroll">
     <div class="rpm-intro-inner">
 
       <div class="rpm-intro-eyebrow">Before We Begin</div>
@@ -2220,10 +2237,14 @@
         Takes about 15 minutes. There are no right or wrong answers.<br/>Just write what is true for you right now.
       </div>
 
+    </div>
+    </div><!-- end scroll -->
+
+    <!-- Sticky button — always visible above browser chrome -->
+    <div class="rpm-intro-footer">
       <button class="btn-rpm-begin" onclick="goTo('screen-results-open')">
         I&apos;m Ready — Let&apos;s Build &nbsp;&rarr;
       </button>
-
     </div>
 
     <audio id="audio-rpm-intro" preload="auto">
