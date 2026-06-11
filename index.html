@@ -2136,30 +2136,33 @@
 
     /* ── TONY HEADSHOT ── */
     .tony-headshot-bg {
-      position: absolute;
+      position: absolute !important;
       top: 0;
       right: 0;
-      width: 65%;
-      max-width: 320px;
+      width: 70%;
+      max-width: 360px;
+      height: auto;
       pointer-events: none;
       z-index: 0;
       display: block;
-      /* Fade: dissolve left edge and bottom edge */
+      /* Fade left edge and bottom so it blends into navy */
       -webkit-mask-image: linear-gradient(
         to bottom left,
-        rgba(0,0,0,0.6) 20%,
-        rgba(0,0,0,0.3) 50%,
-        transparent 80%
+        black 25%,
+        rgba(0,0,0,0.7) 55%,
+        transparent 85%
       );
       mask-image: linear-gradient(
         to bottom left,
-        rgba(0,0,0,0.6) 20%,
-        rgba(0,0,0,0.3) 50%,
-        transparent 80%
+        black 25%,
+        rgba(0,0,0,0.7) 55%,
+        transparent 85%
       );
-      opacity: 0.6;
+      opacity: 0.88;
       user-select: none;
       -webkit-user-select: none;
+      /* Critical: taken out of document flow */
+      flex-shrink: 0;
     }
 
     /* All direct children of headshot screens sit above the image */
@@ -2168,11 +2171,21 @@
       z-index: 1;
     }
 
+    /* Phase opener screens — make sure their inner content
+       wrapper doesn't get pushed by the absolute image */
+    .has-headshot .phase-open-screen,
+    .has-headshot .question-screen,
+    .has-headshot .rpm-intro-scroll,
+    .has-headshot .response-screen {
+      position: relative;
+      z-index: 1;
+    }
+
     @media (max-width: 480px) {
       .tony-headshot-bg {
-        width: 72%;
-        max-width: 260px;
-        opacity: 0.5;
+        width: 75%;
+        max-width: 300px;
+        opacity: 0.85;
       }
     }
 
