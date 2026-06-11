@@ -2193,22 +2193,15 @@
       z-index: 1;
     }
 
-    /* Phase opener screens: align to top, not center */
+    /* Phase opener screens: centered, Tony floats behind */
     #screen-results-open,
     #screen-purpose-open,
     #screen-map-open {
-      justify-content: flex-start;
+      justify-content: center;
       align-items: center;
     }
 
-    /* Phase opener: DESKTOP ONLY */
-    @media (min-width: 769px) {
-      #screen-results-open .phase-open-screen,
-      #screen-purpose-open .phase-open-screen,
-      #screen-map-open .phase-open-screen {
-        padding-top: 140px;
-      }
-    }
+    /* Phase opener: no extra padding — content centers naturally */
 
     /* Orientation page: fixed spacer */
     .has-headshot .rpm-intro-inner::before {
@@ -2219,7 +2212,7 @@
       pointer-events: none;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 768px) {
       .tony-headshot-bg {
         width: 62%;
         max-width: 260px;
@@ -2227,7 +2220,7 @@
       }
       #screen-results-open .phase-open-screen,
       #screen-purpose-open .phase-open-screen,
-      #screen-map-open .phase-open-screen { padding-top: 8px !important; }
+      #screen-map-open .phase-open-screen { padding-top: 8px; }
       .has-headshot .rpm-intro-inner::before { height: 120px; }
     }
 
