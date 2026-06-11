@@ -2131,75 +2131,48 @@
     }
 
 
-    /* ── TONY HEADSHOT WATERMARK ──────────────────────────────
-       Sits in the top-right corner, behind all copy (z-index 0)
-       Applied to orientation, phase openers, question screens,
-       and response screens. NOT on video, building, or MAP reveal.
-    ── */
-    #screen-rpm-intro::before,
-    #screen-results-open::before,
-    #screen-q1::before,
-    #screen-purpose-open::before,
-    #screen-purpose-q1::before,
-    #screen-map-open::before,
-    #screen-map-q1::before,
-    #screen-response-r1::before,
-    #screen-response-p1::before,
-    #screen-response-m1::before {
-      content: '';
+    
+
+
+    /* ── TONY HEADSHOT ── */
+    .tony-headshot-bg {
       position: absolute;
       top: 0;
       right: 0;
-      width: 62%;
-      max-width: 340px;
-      aspect-ratio: 1 / 1.1;
-      background-image: url('tony-headshot.png');
-      background-size: cover;
-      background-position: center top;
-      background-repeat: no-repeat;
-      z-index: 0;
+      width: 65%;
+      max-width: 320px;
       pointer-events: none;
-      /* Fade out at left and bottom edges so it blends naturally */
-      -webkit-mask-image:
-        linear-gradient(to left,  rgba(0,0,0,0.55) 0%, transparent 70%),
-        linear-gradient(to top,   rgba(0,0,0,0.55) 0%, transparent 30%);
-      -webkit-mask-composite: source-in;
-      mask-image:
-        linear-gradient(to left,  rgba(0,0,0,0.55) 0%, transparent 70%),
-        linear-gradient(to top,   rgba(0,0,0,0.55) 0%, transparent 30%);
-      mask-composite: intersect;
-      opacity: 0.55;
+      z-index: 0;
+      display: block;
+      /* Fade: dissolve left edge and bottom edge */
+      -webkit-mask-image: linear-gradient(
+        to bottom left,
+        rgba(0,0,0,0.6) 20%,
+        rgba(0,0,0,0.3) 50%,
+        transparent 80%
+      );
+      mask-image: linear-gradient(
+        to bottom left,
+        rgba(0,0,0,0.6) 20%,
+        rgba(0,0,0,0.3) 50%,
+        transparent 80%
+      );
+      opacity: 0.6;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
-    /* Ensure all content inside these screens sits above the headshot */
-    #screen-rpm-intro > *:not(::before),
-    #screen-results-open > *:not(::before),
-    #screen-q1 > *:not(::before),
-    #screen-purpose-open > *:not(::before),
-    #screen-purpose-q1 > *:not(::before),
-    #screen-map-open > *:not(::before),
-    #screen-map-q1 > *:not(::before),
-    #screen-response-r1 > *:not(::before),
-    #screen-response-p1 > *:not(::before),
-    #screen-response-m1 > *:not(::before) {
+    /* All direct children of headshot screens sit above the image */
+    .has-headshot > *:not(.tony-headshot-bg) {
       position: relative;
       z-index: 1;
     }
 
     @media (max-width: 480px) {
-      #screen-rpm-intro::before,
-      #screen-results-open::before,
-      #screen-q1::before,
-      #screen-purpose-open::before,
-      #screen-purpose-q1::before,
-      #screen-map-open::before,
-      #screen-map-q1::before,
-      #screen-response-r1::before,
-      #screen-response-p1::before,
-      #screen-response-m1::before {
-        width: 70%;
-        max-width: 280px;
-        opacity: 0.45;
+      .tony-headshot-bg {
+        width: 72%;
+        max-width: 260px;
+        opacity: 0.5;
       }
     }
 
@@ -2577,7 +2550,7 @@
   </div>
 
   <!-- SCREEN — RPM ORIENTATION -->
-  <div class="screen" id="screen-rpm-intro">
+  <div class="screen has-headshot" id="screen-rpm-intro">
     <div class="rpm-intro-scroll">
     <div class="rpm-intro-inner">
 
@@ -2663,7 +2636,7 @@
   </div>
 
   <!-- SCREEN 3 — RESULTS PHASE OPENING -->
-  <div class="screen" id="screen-results-open">
+  <div class="screen has-headshot" id="screen-results-open">
     <div class="phase-orb phase-orb-1"></div>
     <div class="phase-orb phase-orb-2"></div>
 
@@ -2699,7 +2672,7 @@
   </div>
 
   <!-- SCREEN 4 — QUESTION 1 -->
-  <div class="screen" id="screen-q1">
+  <div class="screen has-headshot" id="screen-q1">
     <div class="question-screen">
       <div class="q-phase q-phase-label">RESULTS — Question 1</div>
       <div class="audio-indicator" id="q1-audio-bar">
@@ -2729,7 +2702,7 @@
 
   <!-- SCREEN 5 — QUESTION 2 -->
   <!-- SCREEN — PURPOSE PHASE OPENING -->
-  <div class="screen" id="screen-purpose-open">
+  <div class="screen has-headshot" id="screen-purpose-open">
     <div class="phase-orb phase-orb-1"></div>
     <div class="phase-orb phase-orb-2"></div>
 
@@ -2764,7 +2737,7 @@
   </div>
 
   <!-- SCREEN — PURPOSE QUESTION 1 -->
-  <div class="screen" id="screen-purpose-q1">
+  <div class="screen has-headshot" id="screen-purpose-q1">
     <div class="question-screen">
       <div class="q-phase q-phase-label">PURPOSE — Question 1</div>
       <div class="audio-indicator" id="purpose-q1-audio-bar">
@@ -2792,7 +2765,7 @@
   </div>
 
   <!-- SCREEN — MAP PHASE OPENING -->
-  <div class="screen" id="screen-map-open">
+  <div class="screen has-headshot" id="screen-map-open">
     <div class="phase-orb phase-orb-1"></div>
     <div class="phase-orb phase-orb-2"></div>
 
@@ -2827,7 +2800,7 @@
   </div>
 
   <!-- SCREEN — MAP QUESTION 1: Action Categories -->
-  <div class="screen" id="screen-map-q1">
+  <div class="screen has-headshot" id="screen-map-q1">
     <div class="question-screen">
       <div class="q-phase q-phase-label">MASSIVE ACTION — Question 1</div>
       <div class="audio-indicator" id="map-q1-audio-bar">
@@ -2855,7 +2828,7 @@
   </div>
 
   <!-- SCREEN — TONY RESPONSE: Results Q1 -->
-  <div class="screen" id="screen-response-r1">
+  <div class="screen has-headshot" id="screen-response-r1">
     <div class="response-screen">
       <div class="response-recap-box">
         <div class="response-recap-label">Your answer</div>
@@ -2873,7 +2846,7 @@
   </div>
 
   <!-- SCREEN — TONY RESPONSE: Purpose Q1 -->
-  <div class="screen" id="screen-response-p1">
+  <div class="screen has-headshot" id="screen-response-p1">
     <div class="response-screen">
       <div class="response-recap-box">
         <div class="response-recap-label">Your answer</div>
@@ -2891,7 +2864,7 @@
   </div>
 
   <!-- SCREEN — TONY RESPONSE: MAP Q1 -->
-  <div class="screen" id="screen-response-m1">
+  <div class="screen has-headshot" id="screen-response-m1">
     <div class="response-screen">
       <div class="response-recap-box">
         <div class="response-recap-label">Your answer</div>
@@ -3578,6 +3551,20 @@
     toast.classList.add('show');
     setTimeout(function() { toast.classList.remove('show'); }, 2800);
   }
+
+
+  // ── TONY HEADSHOT INJECTION ──────────────────────────────
+  document.addEventListener('DOMContentLoaded', function() {
+    var screens = document.querySelectorAll('.has-headshot');
+    screens.forEach(function(screen) {
+      var img = document.createElement('img');
+      img.src = 'tony-headshot.png';
+      img.className = 'tony-headshot-bg';
+      img.alt = '';
+      img.setAttribute('aria-hidden', 'true');
+      screen.insertBefore(img, screen.firstChild);
+    });
+  });
 
   // ── SHARE MAP ─────────────────────────────────────────────
   function shareMap() {
