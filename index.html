@@ -2193,15 +2193,22 @@
       z-index: 1;
     }
 
-    /* Phase opener screens: centered, Tony floats behind */
+    /* Phase opener screens: align to top, not center */
     #screen-results-open,
     #screen-purpose-open,
     #screen-map-open {
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
     }
 
-    /* Phase opener: no extra padding — content centers naturally */
+    /* Phase opener: DESKTOP ONLY */
+    @media (min-width: 769px) {
+      #screen-results-open .phase-open-screen,
+      #screen-purpose-open .phase-open-screen,
+      #screen-map-open .phase-open-screen {
+        padding-top: 140px;
+      }
+    }
 
     /* Orientation page: fixed spacer */
     .has-headshot .rpm-intro-inner::before {
@@ -2685,10 +2692,9 @@
 
   <!-- SCREEN 3 — RESULTS PHASE OPENING -->
   <div class="screen has-headshot" id="screen-results-open">
-    <div class="phase-orb phase-orb-1"></div>
-    <div class="phase-orb phase-orb-2"></div>
-
     <div class="phase-open-screen">
+      <div class="phase-orb phase-orb-1"></div>
+      <div class="phase-orb phase-orb-2"></div>
 
       <div class="phase-label">Phase 1 of 3 &nbsp;·&nbsp; RPM Framework</div>
       <div class="phase-divider"></div>
@@ -2751,10 +2757,9 @@
   <!-- SCREEN 5 — QUESTION 2 -->
   <!-- SCREEN — PURPOSE PHASE OPENING -->
   <div class="screen has-headshot" id="screen-purpose-open">
-    <div class="phase-orb phase-orb-1"></div>
-    <div class="phase-orb phase-orb-2"></div>
-
     <div class="phase-open-screen">
+      <div class="phase-orb phase-orb-1"></div>
+      <div class="phase-orb phase-orb-2"></div>
 
       <div class="phase-label">Phase 2 of 3 &nbsp;·&nbsp; RPM Framework</div>
       <div class="phase-divider"></div>
@@ -2814,10 +2819,9 @@
 
   <!-- SCREEN — MAP PHASE OPENING -->
   <div class="screen has-headshot" id="screen-map-open">
-    <div class="phase-orb phase-orb-1"></div>
-    <div class="phase-orb phase-orb-2"></div>
-
     <div class="phase-open-screen">
+      <div class="phase-orb phase-orb-1"></div>
+      <div class="phase-orb phase-orb-2"></div>
 
       <div class="phase-label">Phase 3 of 3 &nbsp;·&nbsp; RPM Framework</div>
       <div class="phase-divider"></div>
