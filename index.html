@@ -2201,11 +2201,13 @@
       align-items: center;
     }
 
-    /* Phase opener: padding-top creates space for Tony's face */
-    #screen-results-open .phase-open-screen,
-    #screen-purpose-open .phase-open-screen,
-    #screen-map-open .phase-open-screen {
-      padding-top: 140px;
+    /* Phase opener: desktop only — mobile overrides below */
+    @media (min-width: 769px) {
+      #screen-results-open .phase-open-screen,
+      #screen-purpose-open .phase-open-screen,
+      #screen-map-open .phase-open-screen {
+        padding-top: 140px;
+      }
     }
 
     /* Orientation page: fixed spacer */
@@ -2217,7 +2219,7 @@
       pointer-events: none;
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
       .tony-headshot-bg {
         width: 62%;
         max-width: 260px;
