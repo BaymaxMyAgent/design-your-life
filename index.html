@@ -456,7 +456,7 @@
       position: relative;
       text-align: center;
       padding: 48px 32px;
-      padding-top: 38vw; /* starts at chin/chest area */
+      padding-top: 48px;
       max-width: 680px;
       width: 100%;
       display: flex;
@@ -1578,7 +1578,7 @@
       width: 100%;
       margin: 0 auto;
       padding: 48px 28px 24px;
-      padding-top: 42vw; /* pushes headline below Tony's face */
+      padding-top: 0;
       display: flex;
       flex-direction: column;
     }
@@ -2138,43 +2138,38 @@
 
     /* ── TONY HEADSHOT ── */
     .tony-headshot-bg {
-      position: absolute !important;
+      position: absolute;
       top: 0;
       right: 0;
-      width: 70%;
-      max-width: 360px;
+      width: 58%;
+      max-width: 280px;
       height: auto;
       pointer-events: none;
       z-index: 0;
       display: block;
-      /* Fade left edge and bottom so it blends into navy */
       -webkit-mask-image: linear-gradient(
         to bottom left,
-        black 25%,
-        rgba(0,0,0,0.7) 55%,
-        transparent 85%
+        black 20%,
+        rgba(0,0,0,0.6) 50%,
+        transparent 80%
       );
       mask-image: linear-gradient(
         to bottom left,
-        black 25%,
-        rgba(0,0,0,0.7) 55%,
-        transparent 85%
+        black 20%,
+        rgba(0,0,0,0.6) 50%,
+        transparent 80%
       );
       opacity: 0.88;
       user-select: none;
       -webkit-user-select: none;
-      /* Critical: taken out of document flow */
-      flex-shrink: 0;
     }
 
-    /* All direct children of headshot screens sit above the image */
+    /* All direct children sit above the image */
     .has-headshot > *:not(.tony-headshot-bg) {
       position: relative;
       z-index: 1;
     }
 
-    /* Phase opener screens — make sure their inner content
-       wrapper doesn't get pushed by the absolute image */
     .has-headshot .phase-open-screen,
     .has-headshot .question-screen,
     .has-headshot .rpm-intro-scroll,
@@ -2183,12 +2178,32 @@
       z-index: 1;
     }
 
+    /* Phase opener: fixed spacer pushes content below Tony's face */
+    .has-headshot .phase-open-screen::before {
+      content: '';
+      display: block;
+      height: 220px; /* fixed height spacer — Tony's face zone */
+      flex-shrink: 0;
+      pointer-events: none;
+    }
+
+    /* Orientation page: fixed spacer */
+    .has-headshot .rpm-intro-inner::before {
+      content: '';
+      display: block;
+      height: 200px;
+      flex-shrink: 0;
+      pointer-events: none;
+    }
+
     @media (max-width: 480px) {
       .tony-headshot-bg {
-        width: 75%;
-        max-width: 300px;
+        width: 65%;
+        max-width: 260px;
         opacity: 0.85;
       }
+      .has-headshot .phase-open-screen::before { height: 180px; }
+      .has-headshot .rpm-intro-inner::before   { height: 160px; }
     }
 
     /* ── QUESTION SCREENS ── */
@@ -2420,7 +2435,7 @@
       .question-screen { padding: 32px 18px; }
       .q-text { font-size: 1.35em; }
       .end-buttons { max-width: 280px; }
-      .phase-open-screen { padding: 40px 24px; padding-top: 35vw; }
+      .phase-open-screen { padding: 40px 24px; }
       .phase-title { font-size: clamp(2.8em, 18vw, 5em); }
       .btn-phase-next { padding: 14px 40px; }
     }
