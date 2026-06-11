@@ -2178,13 +2178,19 @@
       z-index: 1;
     }
 
-    /* Phase opener: fixed spacer pushes content below Tony's face */
-    .has-headshot .phase-open-screen::before {
-      content: '';
-      display: block;
-      height: 220px; /* fixed height spacer — Tony's face zone */
-      flex-shrink: 0;
-      pointer-events: none;
+    /* Phase opener screens: align to top, not center */
+    #screen-results-open,
+    #screen-purpose-open,
+    #screen-map-open {
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    /* Phase opener: padding-top creates space for Tony's face */
+    #screen-results-open .phase-open-screen,
+    #screen-purpose-open .phase-open-screen,
+    #screen-map-open .phase-open-screen {
+      padding-top: 200px;
     }
 
     /* Orientation page: fixed spacer */
@@ -2202,8 +2208,10 @@
         max-width: 260px;
         opacity: 0.85;
       }
-      .has-headshot .phase-open-screen::before { height: 180px; }
-      .has-headshot .rpm-intro-inner::before   { height: 160px; }
+      #screen-results-open .phase-open-screen,
+      #screen-purpose-open .phase-open-screen,
+      #screen-map-open .phase-open-screen { padding-top: 170px; }
+      .has-headshot .rpm-intro-inner::before { height: 140px; }
     }
 
     /* ── QUESTION SCREENS ── */
