@@ -2141,25 +2141,40 @@
       position: absolute;
       top: 0;
       right: 0;
-      width: 58%;
-      max-width: 280px;
+      width: 85%;
+      max-width: 420px;
       height: auto;
       pointer-events: none;
       z-index: 0;
       display: block;
+      /* Fade bottom and left edges so it blends into navy */
       -webkit-mask-image: linear-gradient(
-        to bottom left,
-        black 20%,
-        rgba(0,0,0,0.6) 50%,
-        transparent 80%
+        to bottom,
+        black 40%,
+        rgba(0,0,0,0.5) 70%,
+        transparent 100%
+      ),
+      linear-gradient(
+        to left,
+        black 50%,
+        rgba(0,0,0,0.4) 75%,
+        transparent 100%
       );
+      -webkit-mask-composite: source-in;
       mask-image: linear-gradient(
-        to bottom left,
-        black 20%,
-        rgba(0,0,0,0.6) 50%,
-        transparent 80%
+        to bottom,
+        black 40%,
+        rgba(0,0,0,0.5) 70%,
+        transparent 100%
+      ),
+      linear-gradient(
+        to left,
+        black 50%,
+        rgba(0,0,0,0.4) 75%,
+        transparent 100%
       );
-      opacity: 0.88;
+      mask-composite: intersect;
+      opacity: 0.9;
       user-select: none;
       -webkit-user-select: none;
     }
@@ -2190,7 +2205,7 @@
     #screen-results-open .phase-open-screen,
     #screen-purpose-open .phase-open-screen,
     #screen-map-open .phase-open-screen {
-      padding-top: 200px;
+      padding-top: 140px;
     }
 
     /* Orientation page: fixed spacer */
@@ -2210,7 +2225,7 @@
       }
       #screen-results-open .phase-open-screen,
       #screen-purpose-open .phase-open-screen,
-      #screen-map-open .phase-open-screen { padding-top: 170px; }
+      #screen-map-open .phase-open-screen { padding-top: 120px; }
       .has-headshot .rpm-intro-inner::before { height: 140px; }
     }
 
