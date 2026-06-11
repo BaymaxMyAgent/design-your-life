@@ -2130,6 +2130,79 @@
       font-family: inherit;
     }
 
+
+    /* ── TONY HEADSHOT WATERMARK ──────────────────────────────
+       Sits in the top-right corner, behind all copy (z-index 0)
+       Applied to orientation, phase openers, question screens,
+       and response screens. NOT on video, building, or MAP reveal.
+    ── */
+    #screen-rpm-intro::before,
+    #screen-results-open::before,
+    #screen-q1::before,
+    #screen-purpose-open::before,
+    #screen-purpose-q1::before,
+    #screen-map-open::before,
+    #screen-map-q1::before,
+    #screen-response-r1::before,
+    #screen-response-p1::before,
+    #screen-response-m1::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 62%;
+      max-width: 340px;
+      aspect-ratio: 1 / 1.1;
+      background-image: url('tony-headshot.png');
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      z-index: 0;
+      pointer-events: none;
+      /* Fade out at left and bottom edges so it blends naturally */
+      -webkit-mask-image:
+        linear-gradient(to left,  rgba(0,0,0,0.55) 0%, transparent 70%),
+        linear-gradient(to top,   rgba(0,0,0,0.55) 0%, transparent 30%);
+      -webkit-mask-composite: source-in;
+      mask-image:
+        linear-gradient(to left,  rgba(0,0,0,0.55) 0%, transparent 70%),
+        linear-gradient(to top,   rgba(0,0,0,0.55) 0%, transparent 30%);
+      mask-composite: intersect;
+      opacity: 0.55;
+    }
+
+    /* Ensure all content inside these screens sits above the headshot */
+    #screen-rpm-intro > *:not(::before),
+    #screen-results-open > *:not(::before),
+    #screen-q1 > *:not(::before),
+    #screen-purpose-open > *:not(::before),
+    #screen-purpose-q1 > *:not(::before),
+    #screen-map-open > *:not(::before),
+    #screen-map-q1 > *:not(::before),
+    #screen-response-r1 > *:not(::before),
+    #screen-response-p1 > *:not(::before),
+    #screen-response-m1 > *:not(::before) {
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 480px) {
+      #screen-rpm-intro::before,
+      #screen-results-open::before,
+      #screen-q1::before,
+      #screen-purpose-open::before,
+      #screen-purpose-q1::before,
+      #screen-map-open::before,
+      #screen-map-q1::before,
+      #screen-response-r1::before,
+      #screen-response-p1::before,
+      #screen-response-m1::before {
+        width: 70%;
+        max-width: 280px;
+        opacity: 0.45;
+      }
+    }
+
     /* ── QUESTION SCREENS ── */
     .question-screen {
       padding: 40px 24px;
